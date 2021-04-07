@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机森林（三） | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="bagging有个很大的缺点，就是树相关性太强了。 随机森林在bagging的基础上，削弱了变量之间的相关性  在分类树的构造上：  $(Yi,X{i1},\cdots,X_{ip})\quad i&#x3D;1,\dots,n$ 每次分裂时，从所有变量（$p$个）随机选$m$个出来 从$m$个变量中选择最佳的分裂方法   分类：$\mathrm{m}&#x3D;\lfloor\sqrt{p}\rfloor$  回">
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机森林（三） | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="bagging有个很大的缺点，就是树相关性太强了。 随机森林在bagging的基础上，削弱了变量之间的相关性  在分类树的构造上：  $(Y_i,X_{i1},\cdots,X_{ip})\quad i&#x3D;1,\dots,n$ 每次分裂时，从所有变量（$p$个）随机选$m$个出来 从$m$个变量中选择最佳的分裂方法   分类：$\mathrm{m}&#x3D;\lfloor\sqrt{p}\rfloor$">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随机森林（三）">
 <meta property="og:url" content="http://yangsp5.github.io/2019/10/30/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E4%B8%89/index.html">
 <meta property="og:site_name" content="我的学习小屋">
-<meta property="og:description" content="bagging有个很大的缺点，就是树相关性太强了。 随机森林在bagging的基础上，削弱了变量之间的相关性  在分类树的构造上：  $(Yi,X{i1},\cdots,X_{ip})\quad i&#x3D;1,\dots,n$ 每次分裂时，从所有变量（$p$个）随机选$m$个出来 从$m$个变量中选择最佳的分裂方法   分类：$\mathrm{m}&#x3D;\lfloor\sqrt{p}\rfloor$  回">
+<meta property="og:description" content="bagging有个很大的缺点，就是树相关性太强了。 随机森林在bagging的基础上，削弱了变量之间的相关性  在分类树的构造上：  $(Y_i,X_{i1},\cdots,X_{ip})\quad i&#x3D;1,\dots,n$ 每次分裂时，从所有变量（$p$个）随机选$m$个出来 从$m$个变量中选择最佳的分裂方法   分类：$\mathrm{m}&#x3D;\lfloor\sqrt{p}\rfloor$">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
 <meta property="article:published_time" content="2019-10-30T07:02:58.000Z">
@@ -144,7 +144,7 @@
 </li>
 <li><p>在分类树的构造上：</p>
 <ul>
-<li>$(Y<em>i,X</em>{i1},\cdots,X_{ip})\quad i=1,\dots,n$</li>
+<li>$(Y_i,X_{i1},\cdots,X_{ip})\quad i=1,\dots,n$</li>
 <li>每次分裂时，从所有变量（$p$个）<strong>随机</strong>选$m$个出来</li>
 <li>从$m$个变量中选择最佳的分裂方法</li>
 </ul>

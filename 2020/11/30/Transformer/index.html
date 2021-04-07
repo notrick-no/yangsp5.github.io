@@ -196,17 +196,17 @@
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个矩阵的意思是：第一行，在我们提取特征的时候，不应该把`Je`的注意力放在第五列上（即`[PAD]`）</span></span><br><span class="line"><span class="comment"># 第二行，在对`suis`提取特征的时候，不要关注[PAD]</span></span><br><span class="line">tensor([[[<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>]]])</span><br></pre></td></tr></table></figure>
 <ul>
-<li>第一个encoder进来的<code>enc_inputs</code>要经过词向量和位置向量的计算，转成了$\text{batch<em>size} \times n\times d</em>{model}$的矩阵，不妨记为$\mathbf{z}$</li>
+<li>第一个encoder进来的<code>enc_inputs</code>要经过词向量和位置向量的计算，转成了$\text{batch_size} \times n\times d_{model}$的矩阵，不妨记为$\mathbf{z}$</li>
 <li>每个encoder有两个子层，分别是多头注意力层、前馈神经网络</li>
 <li>每一层的encoder计算流程如下<ol>
-<li>$\mathbf{z}$乘一个$W<em>x, W_v, W_k$矩阵，分别得到每个$\mathbf{z_i}$的查询向量$q_i=\mathbf{z_i}W_x$、键向量$k_i=\mathbf{z_i}W_k$、值向量$v_i=\mathbf{z_i}W_v$，这里的$\mathbf{z_i}$默认是batch中的一个token，也就是$\mathbf{z_i}$的维度是$1\times d</em>{model}$</li>
+<li>$\mathbf{z}$乘一个$W_x, W_v, W_k$矩阵，分别得到每个$\mathbf{z_i}$的查询向量$q_i=\mathbf{z_i}W_x$、键向量$k_i=\mathbf{z_i}W_k$、值向量$v_i=\mathbf{z_i}W_v$，这里的$\mathbf{z_i}$默认是batch中的一个token，也就是$\mathbf{z_i}$的维度是$1\times d_{model}$</li>
 <li>矩阵乘法就是$Q=\mathbf{z}W_x$，以此类推</li>
 <li>计算$\text { Attention }(Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d_{k}}}\right) V$，注意这里的$QK^{T}$就是注<strong>意力得分矩阵</strong></li>
-<li>这个得分矩阵的维度是$\text{batch<em>size} \times n</em>{heads} \times n \times n$，<strong>这个矩阵要和pad掩码矩阵做点积</strong></li>
-<li>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch<em>size} \times n \times d</em>{model}$的矩阵</li>
+<li>这个得分矩阵的维度是$\text{batch_size} \times n_{heads} \times n \times n$，<strong>这个矩阵要和pad掩码矩阵做点积</strong></li>
+<li>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch_size} \times n \times d_{model}$的矩阵</li>
 <li>第5步的矩阵加上第1步的矩阵，<strong>作为残差层</strong>，再进行一个layernorm，这就完成了<strong>多头注意力</strong></li>
 <li>假设多头注意力出来的值为$\mathbf{z}_{atten}$</li>
-<li>$\mathbf{z}<em>{atten}$经过一个前馈神经网络的值，再加上$\mathbf{z}</em>{atten}$，作为残差层，进行layernorm，<strong>这就完成了第二个子层</strong></li>
+<li>$\mathbf{z}_{atten}$经过一个前馈神经网络的值，再加上$\mathbf{z}_{atten}$，作为残差层，进行layernorm，<strong>这就完成了第二个子层</strong></li>
 <li>经过第8步输出的值，作为下一个encoder的输入</li>
 </ol>
 </li>
@@ -224,55 +224,55 @@
 <tbody>
 <tr>
 <td>$\mathbf{z}$</td>
-<td>$\text{batch<em>size} \times n \times d</em>{model}$</td>
+<td>$\text{batch_size} \times n \times d_{model}$</td>
 <td>$1<em>4</em>512$</td>
 <td>一批输入的数据量，n是输入的最大长度，$d_{model}$是模型的维度</td>
 </tr>
 <tr>
 <td>$W_x$</td>
-<td>$\text{batch<em>size} \times n \times (d</em>{x}*n_{heads})$</td>
+<td>$\text{batch_size} \times n \times (d_{x}*n_{heads})$</td>
 <td>$1<em>4</em>(64*8)$</td>
 <td>8个scaled dot product层并行计算</td>
 </tr>
 <tr>
 <td>$W_k$</td>
-<td>$\text{batch<em>size} \times n \times (d</em>{k}*n_{heads})$</td>
+<td>$\text{batch_size} \times n \times (d_{k}*n_{heads})$</td>
 <td>$1<em>4</em>(64*8)$</td>
 <td>键向量矩阵</td>
 </tr>
 <tr>
 <td>$W_v$</td>
-<td>$\text{batch<em>size} \times n \times (d</em>{v}*n_{heads})$</td>
+<td>$\text{batch_size} \times n \times (d_{v}*n_{heads})$</td>
 <td>$1<em>4</em>(64*8)$</td>
 <td>值向量矩阵</td>
 </tr>
 <tr>
 <td>$Q$</td>
-<td>$\text{batch<em>size} \times n</em>{heads} \times n \times d_{x}$</td>
+<td>$\text{batch_size} \times n_{heads} \times n \times d_{x}$</td>
 <td>$1<em>8</em>4*64$</td>
 <td>每个token的查询值</td>
 </tr>
 <tr>
 <td>$K$</td>
-<td>$\text{batch<em>size} \times n</em>{heads} \times n \times d_{k}$</td>
+<td>$\text{batch_size} \times n_{heads} \times n \times d_{k}$</td>
 <td>$1<em>8</em>4*64$</td>
 <td></td>
 </tr>
 <tr>
 <td>$V$</td>
-<td>$\text{batch<em>size} \times n</em>{heads} \times n \times d_{v}$</td>
+<td>$\text{batch_size} \times n_{heads} \times n \times d_{v}$</td>
 <td>$1<em>8</em>4*64$</td>
 <td></td>
 </tr>
 <tr>
 <td>$\text {Attention }(Q, K, V)$</td>
-<td>$\text{batch<em>size} \times n</em>{heads} \times n \times d_{v}$</td>
+<td>$\text{batch_size} \times n_{heads} \times n \times d_{v}$</td>
 <td>$1<em>8</em>4*64$</td>
 <td>注意力值</td>
 </tr>
 <tr>
 <td>$W^{O}$</td>
-<td>$n<em>{heads} * d</em>{v} * d_{model}$</td>
+<td>$n_{heads} <em> d_{v} </em> d_{model}$</td>
 <td>$8<em>64</em>512$</td>
 <td>就是个全连接层</td>
 </tr>
@@ -281,7 +281,7 @@
 </div>
 <h2 id="第三步：decoder"><a href="#第三步：decoder" class="headerlink" title="第三步：decoder"></a>第三步：decoder</h2><ul>
 <li>第一个的decoder需要将<code>dec_input</code>输入，就是<code>dec_inputs: tensor([[5, 1, 2, 3, 4]])</code></li>
-<li>并进行词向量化，和位置向量相加，即变成一个$\text{batch<em>size} \times m \times d</em>{model}$的矩阵，记为$\mathbf{z}$</li>
+<li>并进行词向量化，和位置向量相加，即变成一个$\text{batch_size} \times m \times d_{model}$的矩阵，记为$\mathbf{z}$</li>
 <li>这里要计算两个掩码矩阵，<code>dec_self_attn_mask</code>和<code>dec_enc_attn_mask</code></li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># dec_self_attn_mask: batch_size * m * m</span></span><br><span class="line"><span class="comment"># 这里掩码矩阵是精髓，比如我们需要进行翻译的时候</span></span><br><span class="line"><span class="comment"># 第一次，我们放入德语句子和开始序列[EOS]，</span></span><br><span class="line"><span class="comment"># 那么我们了解已经翻译了的句子，其实就是[EOS]这一个单词</span></span><br><span class="line"><span class="comment"># 我们对只能对这个[EOS]进行编码，提取[EOS]中的特征</span></span><br><span class="line"><span class="comment"># 那么模型会翻译出第一个token，也就是I</span></span><br><span class="line"><span class="comment"># 当我们翻译第二个单词am的时候，模型放入原句子、已经翻译了第一个单词的序列（[EOS] I [PAD] [PAD] [PAD]）</span></span><br><span class="line"><span class="comment"># 那么模型就可以用到两个单词的信息[EOS] I</span></span><br><span class="line"><span class="comment"># 当我们再次翻译第k个token的时候，就需要放入原句子、已经翻译了k-1个token的序列</span></span><br><span class="line"><span class="comment"># 下面这个掩码矩阵</span></span><br><span class="line"><span class="comment"># 在训练的过程中，这里一次性把所有的步骤都做了并行计算</span></span><br><span class="line"><span class="comment"># 真实预测的时候，我们是一次一次放到这个模型中去的</span></span><br><span class="line">tensor([[[<span class="literal">False</span>, <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>,  <span class="literal">True</span>,  <span class="literal">True</span>,  <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>,  <span class="literal">True</span>,  <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>,  <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>,  <span class="literal">False</span>]]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># dec_enc_attn_mask: batch_size * m*n</span></span><br><span class="line"><span class="comment"># 注意这里的n和m，其实在本文里n=m</span></span><br><span class="line"><span class="comment"># 这个注意力矩阵，</span></span><br><span class="line"><span class="comment"># 第一行，是[EOS]对x=&#x27;Je suis etudiant [PAD] [PAD]&#x27;的注意力，</span></span><br><span class="line"><span class="comment"># True的意思是，[EOS] 不要关注输入句子x的第四、五个单词</span></span><br><span class="line"><span class="comment"># 第二行，是已经翻译了I之后，这个I，应该注意原始句子中的哪个单词</span></span><br><span class="line">tensor([[[<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>],</span><br><span class="line">         [<span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">False</span>, <span class="literal">True</span>, <span class="literal">True</span>]]])</span><br></pre></td></tr></table></figure>
@@ -299,9 +299,9 @@
 </li>
 <li><p>计算$\text { Attention }(Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d_{k}}}\right) V$，注意这里的$QK^{T}$就是注<strong>意力得分矩阵</strong></p>
 </li>
-<li><p>这个得分矩阵的维度是$\text{batch<em>size} \times n</em>{heads} \times m \times m$，<strong>这个矩阵要和dec_self_attn_mask矩阵做点积</strong></p>
+<li><p>这个得分矩阵的维度是$\text{batch_size} \times n_{heads} \times m \times m$，<strong>这个矩阵要和dec_self_attn_mask矩阵做点积</strong></p>
 </li>
-<li><p>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch<em>size} \times n \times d</em>{model}$的矩阵</p>
+<li><p>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch_size} \times n \times d_{model}$的矩阵</p>
 </li>
 <li><p>第5步的矩阵加上第1步的矩阵，<strong>作为残差层</strong>，再进行一个layernorm，这就完成了<strong>第一个多头注意力子层</strong></p>
 </li>
@@ -311,15 +311,15 @@
 </li>
 <li><p>计算$\text { Attention }(Q, K, V)=\operatorname{softmax}\left(\frac{Q K^{T}}{\sqrt{d_{k}}}\right) V$，注意这里的$QK^{T}$就是注<strong>意力得分矩阵</strong></p>
 </li>
-<li><p>这个得分矩阵的维度是$\text{batch<em>size} \times n</em>{heads} \times m \times m$，<strong>这个矩阵要和dec_enc_attn_mask矩阵做点积</strong></p>
+<li><p>这个得分矩阵的维度是$\text{batch_size} \times n_{heads} \times m \times m$，<strong>这个矩阵要和dec_enc_attn_mask矩阵做点积</strong></p>
 </li>
-<li><p>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch<em>size} \times n \times d</em>{model}$的矩阵第5步的矩阵加上第1步的矩阵，<strong>作为残差层</strong>，再进行一个layernorm，这就完成了<strong>第二个多头注意力子层</strong></p>
+<li><p>计算完$\text { Attention }(Q, K, V)$后乘一个权重矩阵$W^{O}$，得到一个$\text{batch_size} \times n \times d_{model}$的矩阵第5步的矩阵加上第1步的矩阵，<strong>作为残差层</strong>，再进行一个layernorm，这就完成了<strong>第二个多头注意力子层</strong></p>
 </li>
 </ol>
 <ol>
 <li><p>假设第10步计算出来的值为$\mathbf{z}_{atten}$</p>
 </li>
-<li><p>$\mathbf{z}<em>{atten}$经过一个前馈神经网络的值，再加上$\mathbf{z}</em>{atten}$，作为残差层，进行layernorm，<strong>这就完成了第二个子层</strong></p>
+<li><p>$\mathbf{z}_{atten}$经过一个前馈神经网络的值，再加上$\mathbf{z}_{atten}$，作为残差层，进行layernorm，<strong>这就完成了第二个子层</strong></p>
 </li>
 <li><p>经过第12步输出的值，作为下一个decoder的输出</p>
 </li>
@@ -363,7 +363,7 @@
 </table>
 </div>
 <h2 id="第四步：预测序列"><a href="#第四步：预测序列" class="headerlink" title="第四步：预测序列"></a>第四步：预测序列</h2><ul>
-<li><p>经过decoder出来的数值，维度为$\text{batch<em>size} \times m \times d</em>{model}$</p>
+<li><p>经过decoder出来的数值，维度为$\text{batch_size} \times m \times d_{model}$</p>
 </li>
 <li><p>使用一个线性层，$d_{model} \times \text{vocab_output}$，$\text{vocab_output}$是输出词表的大小</p>
 </li>
@@ -389,31 +389,31 @@
 <tr>
 <td>1</td>
 <td>Je</td>
-<td>$[x<em>{11}, x</em>{12}, …, x_{1p}]$</td>
+<td>$[x_{11}, x_{12}, …, x_{1p}]$</td>
 <td>$1\times 512$</td>
 </tr>
 <tr>
 <td>2</td>
 <td>suis</td>
-<td>$[x<em>{21}, x</em>{22}, …, x_{2p}]$</td>
+<td>$[x_{21}, x_{22}, …, x_{2p}]$</td>
 <td>$1\times 512$</td>
 </tr>
 <tr>
 <td>3</td>
 <td>etudiant</td>
-<td>$[x<em>{31}, x</em>{32}, …, x_{3p}]$</td>
+<td>$[x_{31}, x_{32}, …, x_{3p}]$</td>
 <td>$1\times 512$</td>
 </tr>
 <tr>
 <td>0</td>
 <td>[PAD]</td>
-<td>$[x<em>{01}, x</em>{02}, …, x_{0p}]$</td>
+<td>$[x_{01}, x_{02}, …, x_{0p}]$</td>
 <td>$1\times 512$</td>
 </tr>
 <tr>
 <td>0</td>
 <td>[PAD]</td>
-<td>$[x<em>{01}, x</em>{02}, …, x_{0p}]$</td>
+<td>$[x_{01}, x_{02}, …, x_{0p}]$</td>
 <td>$1\times 512$</td>
 </tr>
 </tbody>
@@ -445,7 +445,7 @@ P E_{(p o s, 2 i+1)} &=\cos \left(p o s / 10000^{2 i / d_{\text {model }}}\right
 <li><p>现在序列到序列普遍的做法：encoder+decoder的结构</p>
 <ul>
 <li>encoder将输入的序列$x=(x_1, \dots, x_n)$编码成$z=F(x_1, \dots, x_n)$，这个$z$可以理解为是从原始序列中提取出来的语义</li>
-<li>decoder的任务就是，根据已有的语义$z$和已经输出的语序$(y<em>1, \dots, y</em>{i-1})$，生成第$i$个单词</li>
+<li>decoder的任务就是，根据已有的语义$z$和已经输出的语序$(y_1, \dots, y_{i-1})$，生成第$i$个单词</li>
 </ul>
 </li>
 </ul>
@@ -480,7 +480,7 @@ attention(Query, x)= \sum_{i=1}^{n} smilarity(Query, k_i) * V_i</script><ul>
 </li>
 </ul>
 <ol>
-<li>将$\mathbf{z} = [\mathbf{z<em>1}, \dots, \mathbf{z</em>{5}}]^{T}$放进encoder</li>
+<li>将$\mathbf{z} = [\mathbf{z_1}, \dots, \mathbf{z_{5}}]^{T}$放进encoder</li>
 <li>将每个$\mathbf{z_i}$计算分别与$W_x, W_v, W_k$做<strong>矩阵乘法</strong>，分别得到每个$\mathbf{x_i}$的查询向量$q_i=\mathbf{z_i}W_x$、键向量$k_i=\mathbf{z_i}W_k$、值向量$v_i=\mathbf{z_i}W_v$<ul>
 <li>这里查询向量、键向量、值向量都是$1\times64$维</li>
 <li>其实可以分别设置维度$d_q, d_k, d_v$，但是attention的文章里面将维度统一了，方面计算。</li>
@@ -519,14 +519,14 @@ attention(Query, x)= \sum_{i=1}^{n} smilarity(Query, k_i) * V_i</script><ul>
 & \text { where head }_{\mathrm{i}}=\operatorname{Attention}\left(Q W_{i}^{Q}, K W_{i}^{K}, V W_{i}^{V}\right)
 \end{aligned}
 \end{equation}</script><h1 id="前馈神经网络"><a href="#前馈神经网络" class="headerlink" title="前馈神经网络"></a>前馈神经网络</h1><ul>
-<li>这里网络接受一个输入值，$\mathbf{z}$的形状如$\text{batch<em>size} \times n \times d</em>{model}$或$\text{batch<em>size} \times m \times d</em>{model}$</li>
+<li>这里网络接受一个输入值，$\mathbf{z}$的形状如$\text{batch_size} \times n \times d_{model}$或$\text{batch_size} \times m \times d_{model}$</li>
 <li>表达式如下</li>
 </ul>
 <script type="math/tex; mode=display">
 \begin{equation}
 \operatorname{FFN}(z)=\max \left(0, z W_{1}+b_{1}\right) W_{2}+b_{2}
 \end{equation}</script><ul>
-<li>这里的权重矩阵$W<em>1$的维数是$512\times 2048$，就是文章中的$d</em>{ff}=2048$，<strong>不知道为啥要这么设置</strong></li>
+<li>这里的权重矩阵$W_1$的维数是$512\times 2048$，就是文章中的$d_{ff}=2048$，<strong>不知道为啥要这么设置</strong></li>
 </ul>
 <div class="table-container">
 <table>
@@ -540,7 +540,7 @@ attention(Query, x)= \sum_{i=1}^{n} smilarity(Query, k_i) * V_i</script><ul>
 <tbody>
 <tr>
 <td>$W_1$</td>
-<td>$d<em>{model} \times d</em>{ff}$</td>
+<td>$d_{model} \times d_{ff}$</td>
 <td>$512\times 2048$</td>
 </tr>
 <tr>
@@ -550,7 +550,7 @@ attention(Query, x)= \sum_{i=1}^{n} smilarity(Query, k_i) * V_i</script><ul>
 </tr>
 <tr>
 <td>$W_2$</td>
-<td>$d<em>{ff} \times d</em>{model}$</td>
+<td>$d_{ff} \times d_{model}$</td>
 <td>$2048 \times 512$</td>
 </tr>
 <tr>
@@ -607,20 +607,20 @@ attention(Query, x)= \sum_{i=1}^{n} smilarity(Query, k_i) * V_i</script><ul>
 </div>
 <ul>
 <li>分别计算参数的个数，这里不加入batch_size，即假定为1，一个token进去</li>
-<li>词向量矩阵：$n \times d<em>{model}$和$m \times d</em>{model}$</li>
+<li>词向量矩阵：$n \times d_{model}$和$m \times d_{model}$</li>
 <li>多头注意力层：<ul>
-<li>查询、键、值权重矩阵，$d<em>{model} \times d_x$，$d</em>{model} \times d<em>k$，$d</em>{model} \times d<em>v$，即总共有$n</em>{heads} \times d_{model} \times (d_x + d_k + d_v)$个参数</li>
-<li>权重矩阵$W^{O}$，计算完attention，进行拼接之后的权重矩阵，$(n<em>{heads}*d_v) \times d</em>{model}$</li>
+<li>查询、键、值权重矩阵，$d_{model} \times d_x$，$d_{model} \times d_k$，$d_{model} \times d_v$，即总共有$n_{heads} \times d_{model} \times (d_x + d_k + d_v)$个参数</li>
+<li>权重矩阵$W^{O}$，计算完attention，进行拼接之后的权重矩阵，$(n_{heads}*d_v) \times d_{model}$</li>
 </ul>
 </li>
 <li>前馈神经网络：<ul>
-<li>encoder、decoder会输入一个$1 \times d<em>{model}$的值，那么输出就是$\operatorname{FFN}(x)=\max \left(0, x W</em>{1}+b<em>{1}\right) W</em>{2}+b_{2}$</li>
-<li>那么这个网络的权重$W<em>1$，$b_1$，$W_2$，$b_2$的维度就是$d</em>{model} \times d<em>{ff}$，$1\times d</em>{ff}$，$d<em>{ff} \times d</em>{model}$，$1 \times d_{model}$</li>
+<li>encoder、decoder会输入一个$1 \times d_{model}$的值，那么输出就是$\operatorname{FFN}(x)=\max \left(0, x W_{1}+b_{1}\right) W_{2}+b_{2}$</li>
+<li>那么这个网络的权重$W_1$，$b_1$，$W_2$，$b_2$的维度就是$d_{model} \times d_{ff}$，$1\times d_{ff}$，$d_{ff} \times d_{model}$，$1 \times d_{model}$</li>
 </ul>
 </li>
 <li>总结：一个transformers有6个encoder、6个decoder</li>
-<li>那么encoders共有，$6 \times n<em>{heads} \times d</em>{model} \times (d<em>x + d_k + d_v) + 6\times (n</em>{heads}*d<em>v) \times d</em>{model} + 12 \times d<em>{ff} \times d</em>{model} + 6 \times d<em>{model} + 6 \times d</em>{ff}$</li>
-<li>那么decoders共有，$12 \times n<em>{heads} \times d</em>{model} \times (d<em>x + d_k + d_v) + 12\times (n</em>{heads}*d<em>v) \times d</em>{model} + 12 \times d<em>{ff} \times d</em>{model} + 6 \times d<em>{model} + 6 \times d</em>{ff}$</li>
+<li>那么encoders共有，$6 \times n_{heads} \times d_{model} \times (d_x + d_k + d_v) + 6\times (n_{heads}*d_v) \times d_{model} + 12 \times d_{ff} \times d_{model} + 6 \times d_{model} + 6 \times d_{ff}$</li>
+<li>那么decoders共有，$12 \times n_{heads} \times d_{model} \times (d_x + d_k + d_v) + 12\times (n_{heads}*d_v) \times d_{model} + 12 \times d_{ff} \times d_{model} + 6 \times d_{model} + 6 \times d_{ff}$</li>
 <li>假设batch_size为1，n=1，m=1，那么这个transformer总共有42506240个参数</li>
 <li>正确的参数是44152832，我这里算的有出入，<strong>是因为没有算bias项</strong></li>
 </ul>

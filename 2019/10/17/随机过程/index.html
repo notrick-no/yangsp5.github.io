@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机过程 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我的随机过程学得很差，所以再学一遍并认真写课后作业  基本概念什么是随机过程 每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T&#x3D;{X(t,\omega),t\in T}$为随机过程，也即随机变量族 $T$是指标集，离散、连续都可以  状态空间：$X_T$所有可能的取值   分类 独立增量过程 $t{1}&lt;t{2}&lt;\cdots&lt;t{n}, t{i} \in T">
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机过程 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="我的随机过程学得很差，所以再学一遍并认真写课后作业  基本概念什么是随机过程 每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T&#x3D;\{X(t,\omega),t\in T\}$为随机过程，也即随机变量族 $T$是指标集，离散、连续都可以  状态空间：$X_T$所有可能的取值   分类 独立增量过程 $t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}, t_{i}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随机过程">
 <meta property="og:url" content="http://yangsp5.github.io/2019/10/17/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/index.html">
 <meta property="og:site_name" content="我的学习小屋">
-<meta property="og:description" content="我的随机过程学得很差，所以再学一遍并认真写课后作业  基本概念什么是随机过程 每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T&#x3D;{X(t,\omega),t\in T}$为随机过程，也即随机变量族 $T$是指标集，离散、连续都可以  状态空间：$X_T$所有可能的取值   分类 独立增量过程 $t{1}&lt;t{2}&lt;\cdots&lt;t{n}, t{i} \in T">
+<meta property="og:description" content="我的随机过程学得很差，所以再学一遍并认真写课后作业  基本概念什么是随机过程 每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T&#x3D;\{X(t,\omega),t\in T\}$为随机过程，也即随机变量族 $T$是指标集，离散、连续都可以  状态空间：$X_T$所有可能的取值   分类 独立增量过程 $t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}, t_{i}">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
 <meta property="article:published_time" content="2019-10-17T03:07:36.000Z">
@@ -142,7 +142,7 @@
 <li>我的随机过程学得很差，所以再学一遍并认真写课后作业</li>
 </ul>
 <h1 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h1><h2 id="什么是随机过程"><a href="#什么是随机过程" class="headerlink" title="什么是随机过程"></a>什么是随机过程</h2><ul>
-<li>每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T={X(t,\omega),t\in T}$为随机过程，也即<strong>随机变量族</strong></li>
+<li>每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T=\{X(t,\omega),t\in T\}$为随机过程，也即<strong>随机变量族</strong></li>
 <li><p>$T$是指标集，离散、连续都可以</p>
 </li>
 <li><p>状态空间：$X_T$所有可能的取值</p>
@@ -150,26 +150,26 @@
 </ul>
 <h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
 <li><p>独立增量过程</p>
-<p>$t<em>{1}&lt;t</em>{2}&lt;\cdots&lt;t<em>{n}, t</em>{i} \in T, 1 \leqslant i \leqslant n$，有$X\left(t<em>{1}\right), X\left(t</em>{2}\right)-X\left(t<em>{1}\right), X\left(t</em>{3}\right)-X\left(t<em>{2}\right), \cdots, X\left(t</em>{n}\right)-X\left(t_{n-1}\right)$相互独立</p>
+<p>$t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}, t_{i} \in T, 1 \leqslant i \leqslant n$，有$X\left(t_{1}\right), X\left(t_{2}\right)-X\left(t_{1}\right), X\left(t_{3}\right)-X\left(t_{2}\right), \cdots, X\left(t_{n}\right)-X\left(t_{n-1}\right)$相互独立</p>
 <ul>
 <li>平稳增量：$0 \leqslant s&lt;t$有$X(t)-X(s)$的分布只依赖于$t-s$</li>
 </ul>
 </li>
 <li><p>马尔可夫过程：将来与过去无关</p>
-<p>$P\left(X<em>{t} \in A | X</em>{t<em>{1}}=x</em>{1}, X<em>{t</em>{2}}=x<em>{2}, \cdots, X</em>{t<em>{n}}=x</em>{n}\right)=P\left(X<em>{t} \in A | X</em>{t<em>{n}}=x</em>{n}\right)$</p>
+<p>$P\left(X_{t} \in A | X_{t_{1}}=x_{1}, X_{t_{2}}=x_{2}, \cdots, X_{t_{n}}=x_{n}\right)=P\left(X_{t} \in A | X_{t_{n}}=x_{n}\right)$</p>
 </li>
 <li><p>平稳过程</p>
 <ul>
-<li>宽平稳过程：$E(X(t))=m, \operatorname{cov}\left(X<em>{t}, X</em>{t+\tau}\right)=R(\tau)$，协方差不随时间变化而变化</li>
+<li>宽平稳过程：$E(X(t))=m, \operatorname{cov}\left(X_{t}, X_{t+\tau}\right)=R(\tau)$，协方差不随时间变化而变化</li>
 <li>二阶矩过程：$\forall t \in T, D \left(X_{t}\right)$存在</li>
-<li>严平稳过程：$\forall t<em>{1}, t</em>{2}, \cdots, t<em>{n} \in T, h&gt;0,\left(X</em>{t<em>{1}}, X</em>{t<em>{2}}, \cdots, X</em>{t<em>{n}}\right)$与$\left(X</em>{t<em>{1}+h}, X</em>{t<em>{2}+h}, \cdots, X</em>{t_{n}+h}\right)$有相同的联合分布</li>
+<li>严平稳过程：$\forall t_{1}, t_{2}, \cdots, t_{n} \in T, h&gt;0,\left(X_{t_{1}}, X_{t_{2}}, \cdots, X_{t_{n}}\right)$与$\left(X_{t_{1}+h}, X_{t_{2}+h}, \cdots, X_{t_{n}+h}\right)$有相同的联合分布</li>
 </ul>
 </li>
 <li><p>鞅</p>
-<p>$\forall t \in T, \boldsymbol{E}|X(t)|&lt;\infty$，且$\forall t<em>{1}&lt;t</em>{2}&lt;\cdots&lt;t<em>{n}&lt;t</em>{n+1}$有$E\left(X\left(t<em>{n+1}\right) | X\left(t</em>{1}\right), X\left(t<em>{2}\right), \cdots, X\left(t</em>{n}\right)\right)=X\left(t_{n}\right)$ </p>
+<p>$\forall t \in T, \boldsymbol{E}|X(t)|&lt;\infty$，且$\forall t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}&lt;t_{n+1}$有$E\left(X\left(t_{n+1}\right) | X\left(t_{1}\right), X\left(t_{2}\right), \cdots, X\left(t_{n}\right)\right)=X\left(t_{n}\right)$ </p>
 </li>
 <li><p>更新过程</p>
-<p>$\left(X<em>{k}, k \geqslant 1\right)$为独立同分布的<strong>正</strong>的随机变量序列，$S_0 =0,\quad S</em>{n}=\sum<em>{k=1}^{n} X</em>{k}$，$N(t)=\max \left{n ; n \geqslant 0, S_{n} \leqslant t\right}$，则${N(t), t \geqslant 0}$为更新过程</p>
+<p>$\left(X_{k}, k \geqslant 1\right)$为独立同分布的<strong>正</strong>的随机变量序列，$S_0 =0,\quad S_{n}=\sum_{k=1}^{n} X_{k}$，$N(t)=\max \left\{n ; n \geqslant 0, S_{n} \leqslant t\right\}$，则$\{N(t), t \geqslant 0\}$为更新过程</p>
 </li>
 <li><p>计数过程</p>
 </li>

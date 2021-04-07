@@ -52,7 +52,7 @@
   isHome: true,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2021-04-07 23:08:22'
+  postUpdate: '2021-04-07 23:25:28'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -139,7 +139,7 @@
 随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林
 
 决策树什么是决策树
-有$n$份样本$(Yi,X{i1},\cdots,X_{ip})$，这里$i= 1,\dots, n$，样本有$p$个特征
+有$n$份样本$(Y_i,X_{i1},\cdots,X_{ip})$，这里$i= 1,\dots, n$，样本有$p$个特征
 对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}=f(X)$
 
 下图为网络上找到一张示意图，$X=${女票，陪女票，任务，吃鸡}
@@ -165,19 +165,19 @@ $Y$是离散型（分类模型）：不纯度
 
 不纯度的概念：
 
-$Y$有$K ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2019/10/17/%E6%B3%8A%E6%9D%BE%E8%BF%87%E7%A8%8B/" title="泊松过程">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="泊松过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/10/17/%E6%B3%8A%E6%9D%BE%E8%BF%87%E7%A8%8B/" title="泊松过程">泊松过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-10-17T04:18:05.000Z" title="Created 2019-10-17 12:18:05">2019-10-17</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.214Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/">随机过程</a></span></div><div class="content">定义${N(t), t \geqslant 0}$为泊松过程要满足下面四个条件：
+$Y$有 ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2019/10/17/%E6%B3%8A%E6%9D%BE%E8%BF%87%E7%A8%8B/" title="泊松过程">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="泊松过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/10/17/%E6%B3%8A%E6%9D%BE%E8%BF%87%E7%A8%8B/" title="泊松过程">泊松过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-10-17T04:18:05.000Z" title="Created 2019-10-17 12:18:05">2019-10-17</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.214Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/">随机过程</a></span></div><div class="content">定义$\{N(t), t \geqslant 0\}$为泊松过程要满足下面四个条件：
 
 $N(0)=0$且为计数过程
-独立增量过程：$\forall 0&lt;t{1}&lt;t{2}&lt;\cdots&lt;t{n}$，有$N\left(t{1}\right), N\left(t{2}\right)-N\left(t{1}\right), \cdots, N\left(t{n}\right)-N\left(t{n-1}\right)$相互独立
+独立增量过程：$\forall 0&lt;t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}$，有$N\left(t_{1}\right), N\left(t_{2}\right)-N\left(t_{1}\right), \cdots, N\left(t_{n}\right)-N\left(t_{n-1}\right)$相互独立
 增量平稳性：$\forall s, t \geqslant 0, n \geqslant 0, P[N(s+t)-N(s)=n]=P[N(t)=n]$
-$\forall t&gt;0$和充分小的$\Delta t&gt;0$，有$\left{\begin{array}{l}{P[N(t+\Delta t)-N(t)=1]=\lambda \Delta t+o(\Delta t)} \ {P[N(t+\Delta t)-N(t) \geqslant 2]=o(\Delta t)}\end{array}\right.$
+$\forall t&gt;0$和充分小的$\Delta t&gt;0$，有$\left\{\begin{array}{l}{P[N(t+\Delta t)-N(t)=1]=\lambda \Delta t+o(\Delta t)} \\ {P[N(t+\Delta t)-N(t) \geqslant 2]=o(\Delta t)}\end{array}\right.$
 
 
-补充：$N(t)$表示在$ ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2019/10/17/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/" title="随机过程">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="随机过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/10/17/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/" title="随机过程">随机过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-10-17T03:07:36.000Z" title="Created 2019-10-17 11:07:36">2019-10-17</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.217Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/">随机过程</a></span></div><div class="content">
+补 ...</div></div></div><div class="recent-post-item"><div class="post_cover left_radius"><a href="/2019/10/17/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/" title="随机过程">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="随机过程"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/10/17/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/" title="随机过程">随机过程</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-10-17T03:07:36.000Z" title="Created 2019-10-17 11:07:36">2019-10-17</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.217Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E9%9A%8F%E6%9C%BA%E8%BF%87%E7%A8%8B/">随机过程</a></span></div><div class="content">
 我的随机过程学得很差，所以再学一遍并认真写课后作业
 
 基本概念什么是随机过程
-每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T={X(t,\omega),t\in T}$为随机过程，也即随机变量族
+每一个固定的$t$，$X(t,\omega)$是随机变量，$X_T=\{X(t,\omega),t\in T\}$为随机过程，也即随机变量族
 $T$是指标集，离散、连续都可以
 
 状态空间：$X_T$所有可能的取值
@@ -185,13 +185,13 @@ $T$是指标集，离散、连续都可以
 
 分类
 独立增量过程
-$t{1}&lt;t{2}&lt;\cdots&lt;t{n}, t{i} \in T, 1 \leqslant i \leqslant n$，有$X\left(t{1}\right), X\left(t{2}\right)-X\left(t{1}\right), X\left(t{3}\right)-X\left(t{2}\right), \cdots, X\left(t{n}\right)-X\left(t_{n-1}\right)$相互独立
+$t_{1}&lt;t_{2}&lt;\cdots&lt;t_{n}, t_{i} \in T, 1 \leqslant i \leqslant n$，有$X\left(t_{1}\right), X\left(t_{2}\right)-X\left(t_{1}\right), X\left(t_{3}\right)-X\left(t_{2}\right), \cdots, X\left(t_{n}\right)-X\left(t_{n-1}\right)$相互独立
 
 平稳增量：$0 \leqslant s&lt;t$有$X(t)-X(s)$的分布只依赖于$t-s$
 
 
 马尔可夫过程：将来与过去无关
-$P\left(X{t} \in A | X{t{1}}=x{1}, X{t{2}}=x{2},  ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2019/09/18/%E4%BF%A1%E5%BA%A6%E5%88%86%E6%9E%90/" title="信度分析">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信度分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/09/18/%E4%BF%A1%E5%BA%A6%E5%88%86%E6%9E%90/" title="信度分析">信度分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-09-18T08:39:26.000Z" title="Created 2019-09-18 16:39:26">2019-09-18</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.211Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9D%82%E7%B1%BB/">杂类</a></span></div><div class="content">什么是信度分析
+$P\left(X_{t} \in A | X_{t_{1}}=x_{1} ...</div></div></div><div class="recent-post-item"><div class="post_cover right_radius"><a href="/2019/09/18/%E4%BF%A1%E5%BA%A6%E5%88%86%E6%9E%90/" title="信度分析">     <img class="post_bg" src="/img/top_img.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="信度分析"></a></div><div class="recent-post-info"><a class="article-title" href="/2019/09/18/%E4%BF%A1%E5%BA%A6%E5%88%86%E6%9E%90/" title="信度分析">信度分析</a><div class="article-meta-wrap"><span class="post-meta-date"><i class="far fa-calendar-alt"></i><span class="article-meta-label">Created</span><time class="post-meta-date-created" datetime="2019-09-18T08:39:26.000Z" title="Created 2019-09-18 16:39:26">2019-09-18</time><span class="article-meta__separator">|</span><i class="fas fa-history"></i><span class="article-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.211Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="article-meta"><span class="article-meta__separator">|</span><i class="fas fa-inbox"></i><a class="article-meta__categories" href="/categories/%E6%9D%82%E7%B1%BB/">杂类</a></span></div><div class="content">什么是信度分析
 信度（Reliability），即可靠性，指采用同样的方法对同一对象重复测量时所得结果的一致性程度
 
 

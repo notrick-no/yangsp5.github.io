@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>线性回归 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X{i1},\cdots ,X{i,p-1},Yi)$，每个样本有真实的关系为$Y&#x3D;f{true}(X)+\varepsilon">
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>线性回归 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X_{i1},\cdots ,X_{i,p-1},Y_i)$，每个样本有真实的关系为$Y&#x3D;f_{true}(X)+\vareps">
 <meta property="og:type" content="article">
 <meta property="og:title" content="线性回归">
 <meta property="og:url" content="http://yangsp5.github.io/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
 <meta property="og:site_name" content="我的学习小屋">
-<meta property="og:description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X{i1},\cdots ,X{i,p-1},Yi)$，每个样本有真实的关系为$Y&#x3D;f{true}(X)+\varepsilon">
+<meta property="og:description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X_{i1},\cdots ,X_{i,p-1},Y_i)$，每个样本有真实的关系为$Y&#x3D;f_{true}(X)+\vareps">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/img/%E5%BA%94%E7%94%A8%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%B0%81%E9%9D%A2.jpg">
 <meta property="article:published_time" content="2020-04-20T10:12:06.000Z">
@@ -143,15 +143,15 @@
 <li>课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析</li>
 </ul>
 <h1 id="一、线性回归的基本概念"><a href="#一、线性回归的基本概念" class="headerlink" title="一、线性回归的基本概念"></a>一、线性回归的基本概念</h1><h2 id="1-真实的模型与线性回归"><a href="#1-真实的模型与线性回归" class="headerlink" title="1. 真实的模型与线性回归"></a>1. 真实的模型与线性回归</h2><ul>
-<li>我们有$n$个样本$(X<em>{i1},\cdots ,X</em>{i,p-1},Y<em>i)$，每个样本有真实的关系为$Y=f</em>{true}(X)+\varepsilon_{true}$</li>
-<li>我们用线性关系拟合$f<em>{true}$，即响应变量$Y_i$和预测变量$X_i$满足关系$Y</em>{i}=\beta<em>{0}+\beta</em>{1} X<em>{i 1}+\beta</em>{2} X<em>{i 2}+\cdots+\beta</em>{p-1} X<em>{i, p-1}+\varepsilon</em>{i}, \quad i=1,2, \ldots, n$</li>
+<li>我们有$n$个样本$(X_{i1},\cdots ,X_{i,p-1},Y_i)$，每个样本有真实的关系为$Y=f_{true}(X)+\varepsilon_{true}$</li>
+<li>我们用线性关系拟合$f_{true}$，即响应变量$Y_i$和预测变量$X_i$满足关系$Y_{i}=\beta_{0}+\beta_{1} X_{i 1}+\beta_{2} X_{i 2}+\cdots+\beta_{p-1} X_{i, p-1}+\varepsilon_{i}, \quad i=1,2, \ldots, n$</li>
 <li>矩阵形式为：$Y=X \beta+\varepsilon$，$Y \varepsilon$都是$n \times 1$的随机向量</li>
 </ul>
 <script type="math/tex; mode=display">
 \boldsymbol{Y}=\left[\begin{array}{c}{Y_{1}} \\ {Y_{2}} \\ {\vdots} \\ {Y_{n}}\end{array}\right], \boldsymbol{X}=\left[\begin{array}{cccc}{1} & {X_{11}} & {\dots} & {X_{1, p-1}} \\ {1} & {X_{21}} & {\dots} & {X_{2, p-1}} \\ {\vdots} & {\vdots} & {\vdots} & {\vdots} \\ {1} & {X_{n 1}} & {\dots} & {X_{n, p-1}}\end{array}\right], \boldsymbol{\beta}=\left[\begin{array}{c}{\beta_{0}} \\ {\beta_{1}} \\ {\vdots} \\ {\beta_{p-1}}\end{array}\right], \boldsymbol{\varepsilon}=\left[\begin{array}{c}{\varepsilon_{1}} \\ {\varepsilon_{2}} \\ {\vdots} \\ {\varepsilon_{n}}\end{array}\right]</script><ul>
 <li><p>注意一点，在多个变量的线性回归中，变量之间不一定是相互独立的</p>
 </li>
-<li><p>矩阵形式有：$\varepsilon \sim N(\mathbf{0}<em>{n},\sigma^{2} \boldsymbol{I}</em>{n})$</p>
+<li><p>矩阵形式有：$\varepsilon \sim N(\mathbf{0}_{n},\sigma^{2} \boldsymbol{I}_{n})$</p>
 </li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 例子</span></span><br><span class="line">n = <span class="number">1000</span></span><br><span class="line">set.seed(<span class="number">1</span>)</span><br><span class="line">x1 = rnorm(n)</span><br><span class="line">x2 = rnorm(n)</span><br><span class="line">x3 = rnorm(n)</span><br><span class="line">x4 = ifelse(rnorm(n) &lt; <span class="number">0</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">y = <span class="number">1</span>*x1 + <span class="number">2</span>*x2 + <span class="number">3</span>*x3 + rnorm(n)</span><br><span class="line">dat = as.data.frame(cbind(x1, x2, x3, x4, y))</span><br><span class="line"><span class="comment"># 拟合模型</span></span><br><span class="line">fit = lm(y~., data = dat)</span><br></pre></td></tr></table></figure>
@@ -162,7 +162,7 @@
 </li>
 <li><p>$\beta_0 \beta_1$为参数，$X_i$看作已知的常数</p>
 </li>
-<li><p>$\varepsilon<em>i$看作随机变量，$E\left{\varepsilon</em>{i}\right}=0\quad \sigma^{2}\left{\varepsilon_{i}\right}=\sigma^{2}$</p>
+<li><p>$\varepsilon_i$看作随机变量，$E\left\{\varepsilon_{i}\right\}=0\quad \sigma^{2}\left\{\varepsilon_{i}\right\}=\sigma^{2}$</p>
 </li>
 <li><p>$\varepsilon_i$与$\varepsilon_j$不相关</p>
 </li>
@@ -178,7 +178,7 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 </li>
 <li><p>残差$e_i = Y_i-\hat{Y_i}$，衡量预测值与观测值的差距</p>
 </li>
-<li><p>$\sigma^2$的估计值$s^{2}=MSE=\frac{\sum<em>{i=1}^{n}\left(Y</em>{i}-\bar{Y}\right)^{2}}{p-1}$，有$E{M S E}=\sigma^{2}$</p>
+<li><p>$\sigma^2$的估计值$s^{2}=MSE=\frac{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}{p-1}$，有$E\{M S E\}=\sigma^{2}$</p>
 <p>$Var(\hat{Y}) = \sigma^2H,\hat{Var}(\hat{Y})=MSE \cdot H$</p>
 </li>
 </ul>
@@ -188,14 +188,14 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 <li>这个模型很常用，所以经常要<strong>检验误差是否真的是正态</strong></li>
 </ul>
 <h1 id="二、线性模型的统计推断"><a href="#二、线性模型的统计推断" class="headerlink" title="二、线性模型的统计推断"></a>二、线性模型的统计推断</h1><h2 id="1-检验整个模型"><a href="#1-检验整个模型" class="headerlink" title="1.  检验整个模型"></a>1.  检验整个模型</h2><ul>
-<li>$H<em>{0}: \beta</em>{1}=\cdots=\beta<em>{p-1}=0,\quad H</em>{a}: \beta_{k} \neq 0$ for at least one $k$</li>
+<li>$H_{0}: \beta_{1}=\cdots=\beta_{p-1}=0,\quad H_{a}: \beta_{k} \neq 0$ for at least one $k$</li>
 <li>构造统计量$F=\frac{M S R}{M S E}$，有$F \sim F(p-1, n-p)$</li>
 <li>就是<code>summary(fit)</code>的最后一行</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">F</span>-statistic:  <span class="number">3808</span> on <span class="number">4</span> and <span class="number">995</span> DF,  p-value: &lt; <span class="number">2.2e-16</span></span><br></pre></td></tr></table></figure>
 <h2 id="2-检验某个系数"><a href="#2-检验某个系数" class="headerlink" title="2. 检验某个系数"></a>2. 检验某个系数</h2><ul>
-<li>$H<em>{0}: \beta</em>{k}=0,\quad H<em>{a}: \beta</em>{k} \neq 0$</li>
-<li><p>构造统计量$t<em>{k}=\frac{b</em>{k}-\beta<em>{k}}{s\left{b</em>{k}\right}} \sim t(n-p)$</p>
+<li>$H_{0}: \beta_{k}=0,\quad H_{a}: \beta_{k} \neq 0$</li>
+<li><p>构造统计量$t_{k}=\frac{b_{k}-\beta_{k}}{s\left\{b_{k}\right\}} \sim t(n-p)$</p>
 </li>
 <li><p>就是<code>summary(fit)</code>中每个变量后的t检验，如x4的p值0.565，有理由认为x4的系数为0</p>
 </li>
@@ -203,21 +203,21 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Coefficients:</span><br><span class="line">            Estimate Std. Error t value Pr(&gt;|t|)    </span><br><span class="line">(Intercept)  <span class="number">0.01375</span>    <span class="number">0.04482</span>   <span class="number">0.307</span>    <span class="number">0.759</span>    </span><br><span class="line">x1           <span class="number">1.00473</span>    <span class="number">0.03068</span>  <span class="number">32.746</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x2           <span class="number">1.95967</span>    <span class="number">0.03048</span>  <span class="number">64.285</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x3           <span class="number">2.97810</span>    <span class="number">0.03088</span>  <span class="number">96.451</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x4          -<span class="number">0.03659</span>    <span class="number">0.06360</span>  -<span class="number">0.575</span>    <span class="number">0.565</span>    </span><br></pre></td></tr></table></figure>
 <h2 id="3-多个系数的检验"><a href="#3-多个系数的检验" class="headerlink" title="3. 多个系数的检验"></a>3. 多个系数的检验</h2><ul>
 <li>还可以构造多个系数的统统检验</li>
-<li>$H<em>{0}: \beta</em>{k<em>{i}}=0, i=1,2, \ldots, g, \quad H</em>{a}: \beta<em>{k</em>{i}} \neq 0,$ for some $i=1,2, \dots, g$，这里的$g&lt; p-1$</li>
-<li>构造统计量$F=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) /\left(d f<em>{R}-d f</em>{F}\right)}{\operatorname{SSE}(F) / d f_{F}}=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) / g}{\operatorname{SSE}(F) /(n-p)}$</li>
+<li>$H_{0}: \beta_{k_{i}}=0, i=1,2, \ldots, g, \quad H_{a}: \beta_{k_{i}} \neq 0,$ for some $i=1,2, \dots, g$，这里的$g&lt; p-1$</li>
+<li>构造统计量$F=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) /\left(d f_{R}-d f_{F}\right)}{\operatorname{SSE}(F) / d f_{F}}=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) / g}{\operatorname{SSE}(F) /(n-p)}$</li>
 <li>其实这个就是General Linear Test Approach的思想</li>
 </ul>
 <h2 id="4-E-Y-h-的区间估计"><a href="#4-E-Y-h-的区间估计" class="headerlink" title="4. $E(Y_h)$的区间估计"></a>4. $E(Y_h)$的区间估计</h2><ul>
 <li>上述提到在不同的$X$下，$Y$有不同的概率分布，也即给定了$X_h$，$Y_h$有一个概率分布，现在来估计$Y_h$的<strong>均值</strong>的<strong>置信区间</strong></li>
 <li>我们感兴趣的是$E(Y_h)$，但是只有$\hat{Y_h}$，所以通过$\hat{Y_h}$来估计$E(Y_h)$</li>
-<li>有$ E\left{\hat{Y}<em>{h}\right} =E\left{Y</em>{h}\right} \quad  \sigma^{2}\left{\hat{Y}<em>{h}\right} =\sigma^{2}\left[\frac{1}{n}+\frac{\left(X</em>{h}-\bar{X}\right)^{2}}{\sum\left(X_{i}-\bar{X}\right)^{2}}\right]$</li>
-<li>$\frac{\hat{Y}<em>{h}-E\left{Y</em>{h}\right}}{s\left{\hat{Y}<em>{h}\right}}$服从$t(n-2)$，即$1-\alpha$的置信区间为$\hat{Y}</em>{h} \pm t(1-\alpha / 2 ; n-2) s\left{\hat{Y}_{h}\right}$</li>
+<li>有$ E\left\{\hat{Y}_{h}\right\} =E\left\{Y_{h}\right\} \quad  \sigma^{2}\left\{\hat{Y}_{h}\right\} =\sigma^{2}\left[\frac{1}{n}+\frac{\left(X_{h}-\bar{X}\right)^{2}}{\sum\left(X_{i}-\bar{X}\right)^{2}}\right]$</li>
+<li>$\frac{\hat{Y}_{h}-E\left\{Y_{h}\right\}}{s\left\{\hat{Y}_{h}\right\}}$服从$t(n-2)$，即$1-\alpha$的置信区间为$\hat{Y}_{h} \pm t(1-\alpha / 2 ; n-2) s\left\{\hat{Y}_{h}\right\}$</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new_x = data.frame(x = seq(-<span class="number">3</span>, <span class="number">3</span>, <span class="number">0.5</span>)) <span class="comment"># 新的点</span></span><br><span class="line"><span class="comment"># E(Y_h)的区间估计</span></span><br><span class="line">pred = predict(fit, newdata = new_x, interval = <span class="string">&#x27;confidence&#x27;</span>)<span class="comment"># 注意这里是confidence</span></span><br></pre></td></tr></table></figure>
 <h2 id="5-新的预测-Y-h-new"><a href="#5-新的预测-Y-h-new" class="headerlink" title="5. 新的预测$Y_{h(new)}$"></a>5. 新的预测$Y_{h(new)}$</h2><ul>
-<li>假设我们已经拟合了一个模型$\widehat{Y}<em>{h}=b</em>{0}+b<em>{1} X</em>{h}$，现在给一个新的值$X_{h(new)}$，我们感兴趣的是预测真实值而不是均值</li>
-<li>即有$Y<em>{h(n e w)}=\beta</em>{0}+\beta<em>{1} X</em>{h}+\epsilon_{h(n e w)}$</li>
-<li>当模型的$\beta$未知，有$\frac{Y<em>{h(n e w)}-\hat{Y}</em>{h}}{S{\operatorname{Pred}}} \sim t(n-2) \quad S{\text {Pred}}=\sqrt{M S E} \sqrt{1+\frac{1}{n}+\frac{\left(X<em>{h}-\bar{X}\right)^{2}}{\sum</em>{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}}}$</li>
+<li>假设我们已经拟合了一个模型$\widehat{Y}_{h}=b_{0}+b_{1} X_{h}$，现在给一个新的值$X_{h(new)}$，我们感兴趣的是预测真实值而不是均值</li>
+<li>即有$Y_{h(n e w)}=\beta_{0}+\beta_{1} X_{h}+\epsilon_{h(n e w)}$</li>
+<li>当模型的$\beta$未知，有$\frac{Y_{h(n e w)}-\hat{Y}_{h}}{S\{\operatorname{Pred}\}} \sim t(n-2) \quad S\{\text {Pred}\}=\sqrt{M S E} \sqrt{1+\frac{1}{n}+\frac{\left(X_{h}-\bar{X}\right)^{2}}{\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}}}$</li>
 <li><strong>注意</strong>，这里和上面的$E(Y_h)$的区间估计不一样，统计量的分母不一样</li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pred = predict(fit, newdata = new_x, interval = <span class="string">&#x27;prediction&#x27;</span>)</span><br></pre></td></tr></table></figure>
@@ -226,12 +226,12 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 </li>
 <li><p><strong>其实方差分析就是线性回归</strong></p>
 </li>
-<li><p>方差分解：$\sum<em>{i=1}^{n}\left(Y</em>{i}-\bar{Y}\right)^{2}=\sum<em>{i=1}^{n}\left(\hat{Y}</em>{i}-\bar{Y}\right)^{2}+\sum<em>{i=1}^{n}\left(Y</em>{i}-\hat{Y}_{i}\right)^{2}$，即$\mathrm{SSTO}=\mathrm{SSR}+\mathrm{SSE}$</p>
+<li><p>方差分解：$\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}=\sum_{i=1}^{n}\left(\hat{Y}_{i}-\bar{Y}\right)^{2}+\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i}\right)^{2}$，即$\mathrm{SSTO}=\mathrm{SSR}+\mathrm{SSE}$</p>
 </li>
 <li><p>方差分析表如下</p>
 <p><img src="/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/方差分析表.png" alt></p>
 </li>
-<li><p>ANOVA F Test：$H<em>{0}: \beta</em>{1}=0\quad H<em>1: \beta</em>{1} \neq 0$，统计量$F^{*}=\frac{M S R}{M S E}\sim F(1, n-2)$</p>
+<li><p>ANOVA F Test：$H_{0}: \beta_{1}=0\quad H_1: \beta_{1} \neq 0$，统计量$F^{*}=\frac{M S R}{M S E}\sim F(1, n-2)$</p>
 </li>
 </ul>
 <h2 id="7-拟合程度"><a href="#7-拟合程度" class="headerlink" title="7. 拟合程度"></a>7. 拟合程度</h2><ul>
@@ -242,24 +242,24 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(fit)</span><br></pre></td></tr></table></figure>
 <h2 id="8-Correlation分析"><a href="#8-Correlation分析" class="headerlink" title="8. Correlation分析"></a>8. Correlation分析</h2><ul>
 <li>假设$X$和$Y$都是正态随机变量，令$\rho$为两个随机变量的相关系数</li>
-<li>$E[Y | X]=\mu<em>{Y}+\rho \frac{\sigma</em>{Y}}{\sigma<em>{X}}\left(\mathrm{X}-\mu</em>{X}\right)$，即$\beta<em>{1}=\rho \frac{\sigma</em>{Y}}{\sigma_{X}}$，$\beta_0 = $</li>
-<li>$\rho$的估计量$\mathrm{r}=\pm \sqrt{\frac{S S R}{S S T O}}=\frac{\sum<em>{i=1}^{n}\left(X</em>{i}-\bar{X}\right)\left(Y<em>{i}-\bar{Y}\right)}{\sqrt{\sum</em>{i=1}^{n}\left(X<em>{i}-\bar{X}\right)^{2}} \sqrt{\sum</em>{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}}$</li>
-<li>做统计推断$H<em>{0}: \rho=0 \quad$ vs $\quad H</em>{a}: \rho \neq 0$</li>
+<li>$E[Y | X]=\mu_{Y}+\rho \frac{\sigma_{Y}}{\sigma_{X}}\left(\mathrm{X}-\mu_{X}\right)$，即$\beta_{1}=\rho \frac{\sigma_{Y}}{\sigma_{X}}$，$\beta_0 = $</li>
+<li>$\rho$的估计量$\mathrm{r}=\pm \sqrt{\frac{S S R}{S S T O}}=\frac{\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)\left(Y_{i}-\bar{Y}\right)}{\sqrt{\sum_{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}} \sqrt{\sum_{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}}$</li>
+<li>做统计推断$H_{0}: \rho=0 \quad$ vs $\quad H_{a}: \rho \neq 0$</li>
 <li>统计量$T=\frac{r \sqrt{n-2}}{\sqrt{1-r}} \sim \mathrm{t}(\mathrm{n}-2)$，<strong>这个跟$F$检验是一样的</strong></li>
 </ul>
 <h1 id="三、线性模型的诊断与补救措施"><a href="#三、线性模型的诊断与补救措施" class="headerlink" title="三、线性模型的诊断与补救措施"></a>三、线性模型的诊断与补救措施</h1><h2 id="1-残差"><a href="#1-残差" class="headerlink" title="1. 残差"></a>1. 残差</h2><ul>
-<li>什么是残差：在$Y<em>{i}=\beta X_i+\varepsilon</em>{i}$的模型下，$e_i = Y_i-\hat{Y_i}$<ul>
-<li>$\mathrm{E}\left(e<em>{i}\right)=0$，$\operatorname{Var}\left(e</em>{i}\right)=\left[1-\frac{1}{n}-\frac{\left(X<em>{i}-\bar{X}\right)^{2}}{\sum</em>{\mathrm{t}=1}^{n}\left(X<em>{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$，$\operatorname{Cov}\left(e</em>{i}, e<em>{j}\right)=-\left[\frac{1}{n}+\frac{\left(X</em>{i}-\bar{X}\right)\left(X<em>{j}-\bar{X}\right)}{\sum</em>{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$</li>
-<li>当n很大且$X$分布比较好时，有$\operatorname{Var}\left(e<em>{i}\right) \cong \sigma^{2}, \operatorname{Cov}\left(e</em>{i}, e_{j}\right) \cong 0$</li>
-<li>通常残差$e<em>i$在某种程度上可以当作随机误差$\varepsilon</em>{i}$</li>
+<li>什么是残差：在$Y_{i}=\beta X_i+\varepsilon_{i}$的模型下，$e_i = Y_i-\hat{Y_i}$<ul>
+<li>$\mathrm{E}\left(e_{i}\right)=0$，$\operatorname{Var}\left(e_{i}\right)=\left[1-\frac{1}{n}-\frac{\left(X_{i}-\bar{X}\right)^{2}}{\sum_{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$，$\operatorname{Cov}\left(e_{i}, e_{j}\right)=-\left[\frac{1}{n}+\frac{\left(X_{i}-\bar{X}\right)\left(X_{j}-\bar{X}\right)}{\sum_{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$</li>
+<li>当n很大且$X$分布比较好时，有$\operatorname{Var}\left(e_{i}\right) \cong \sigma^{2}, \operatorname{Cov}\left(e_{i}, e_{j}\right) \cong 0$</li>
+<li>通常残差$e_i$在某种程度上可以当作随机误差$\varepsilon_{i}$</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fit$residuals</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>学生化残差studentized residual：$e<em>{i}^{S}=\frac{e</em>{i}}{s\left{e<em>{i}\right}}$，$S\left{e</em>{i}\right}=\sqrt{M S E} \sqrt{1-\frac{1}{n}-\frac{X<em>{i}-\bar{X}}{\sum</em>{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}}$</p>
+<li><p>学生化残差studentized residual：$e_{i}^{S}=\frac{e_{i}}{s\left\{e_{i}\right\}}$，$S\left\{e_{i}\right\}=\sqrt{M S E} \sqrt{1-\frac{1}{n}-\frac{X_{i}-\bar{X}}{\sum_{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}}$</p>
 <ul>
-<li>这个名字的来源：计算$e_i^S$的过程很像统计推断，$e_i$除$s{e_i}$像统计量，像服从student t distribution，但是并不是真正的服从t分布</li>
+<li>这个名字的来源：计算$e_i^S$的过程很像统计推断，$e_i$除$s\{e_i\}$像统计量，像服从student t distribution，但是并不是真正的服从t分布</li>
 </ul>
 </li>
 <li><p>我们可以从残差图中看出一下几点：</p>
@@ -291,11 +291,11 @@ Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\bo
 <p>常用的有Adjusted $R^{2}, C_{p}, M S E, P R E S S, A I C$ and $B I C$</p>
 <ul>
 <li>$R_{a, p}^{2}=1-\frac{n-1}{n-p} \frac{S S E(p)}{S S T O}=1-\frac{M S E(p)}{S S T O /(n-1)}$</li>
-<li>$C<em>{p}=\frac{S S E(p)}{M S E\left(X</em>{1}, X<em>{2}, \ldots, X</em>{P-1}\right)}-(n-2 p)$</li>
+<li>$C_{p}=\frac{S S E(p)}{M S E\left(X_{1}, X_{2}, \ldots, X_{P-1}\right)}-(n-2 p)$</li>
 <li>$AIC = n\log (\operatorname{SSE}(p))-n \log (n)+2 p$</li>
 <li>$BIC=\operatorname{n} \log (S S E(p))-n \log (n)+\log(n)p$</li>
-<li>$\operatorname{PRESS}(p)=\sum<em>{i=1}^{n}\left(Y</em>{i}-\hat{Y}<em>{i(i)}\right)^{2}$，其中$\hat{Y}</em>{i(i)}$是删去第$i$个样本拟合后，再对第$i$个样本做的预测</li>
-<li>$Y<em>{i}-\hat{Y}</em>{i(i)}=\frac{e<em>{i}}{1-h</em>{i i}}=\frac{Y<em>{i}-\hat{Y}</em>{i}}{1-h<em>{i i}}$，$h</em>{ii}$是$H$的第$i$个对角元素</li>
+<li>$\operatorname{PRESS}(p)=\sum_{i=1}^{n}\left(Y_{i}-\hat{Y}_{i(i)}\right)^{2}$，其中$\hat{Y}_{i(i)}$是删去第$i$个样本拟合后，再对第$i$个样本做的预测</li>
+<li>$Y_{i}-\hat{Y}_{i(i)}=\frac{e_{i}}{1-h_{i i}}=\frac{Y_{i}-\hat{Y}_{i}}{1-h_{i i}}$，$h_{ii}$是$H$的第$i$个对角元素</li>
 </ul>
 </li>
 <li><p>选变量的方法：</p>

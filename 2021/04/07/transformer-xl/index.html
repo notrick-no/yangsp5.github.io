@@ -187,7 +187,7 @@
 </li>
 <li><p>transformers的原论文中，attention的计算方式如下</p>
 <ul>
-<li>原来的计算方式$EW<em>{q}^{T}W</em>{k}E=(E+U)W<em>{q}^{T}W</em>{k}(E+U)$</li>
+<li>原来的计算方式$EW_{q}^{T}W_{k}E=(E+U)W_{q}^{T}W_{k}(E+U)$</li>
 <li>把向量中的词向量、位置向量拆分出来</li>
 </ul>
 </li>
@@ -212,9 +212,9 @@
 <li>改进在下面几点</li>
 </ul>
 <ol>
-<li>将b中的$U<em>j$改成$R</em>{i-j}$，R是sin编码，不需要学习（参数是固定的）；这里解决的问题是，两个token的距离用相对的$i-j$来衡量</li>
+<li>将b中的$U_j$改成$R_{i-j}$，R是sin编码，不需要学习（参数是固定的）；这里解决的问题是，两个token的距离用相对的$i-j$来衡量</li>
 <li>将c中的左边部分改成了$u\in R^{d}$，将d中的左边部分改成了$v \in R^{d}$，原来的是用$U$想乘得到的向量，现在这个是bias，</li>
-<li>将linear transform的矩阵$W<em>k$改成$W</em>{k,R}$和$W_{K,E}$，在原始的attention的结构中，词向量、位置向量都是经过同一个矩阵$W$做的线性变换，现在key的变换<strong>不一样</strong>了，也就是词向量有一个线性变换、位置向量有一个线性变换，原文的代码如下</li>
+<li>将linear transform的矩阵$W_k$改成$W_{k,R}$和$W_{K,E}$，在原始的attention的结构中，词向量、位置向量都是经过同一个矩阵$W$做的线性变换，现在key的变换<strong>不一样</strong>了，也就是词向量有一个线性变换、位置向量有一个线性变换，原文的代码如下</li>
 </ol>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r_head_k = self.r_net(r) <span class="comment"># R是位置信息变量，第227行</span></span><br></pre></td></tr></table></figure>
 <ul>

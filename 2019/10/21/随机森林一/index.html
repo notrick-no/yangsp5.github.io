@@ -1,9 +1,9 @@
-<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机森林 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随机森林是基于决策树的分类方法 随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林  决策树什么是决策树 有$n$份样本$(Yi,X{i1},\cdots,X_{ip})$，这里$i&#x3D; 1,\dots, n$，样本有$p$个特征 对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}&#x3D;f">
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>随机森林 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="随机森林是基于决策树的分类方法 随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林  决策树什么是决策树 有$n$份样本$(Y_i,X_{i1},\cdots,X_{ip})$，这里$i&#x3D; 1,\dots, n$，样本有$p$个特征 对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}">
 <meta property="og:type" content="article">
 <meta property="og:title" content="随机森林">
 <meta property="og:url" content="http://yangsp5.github.io/2019/10/21/%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97%E4%B8%80/index.html">
 <meta property="og:site_name" content="我的学习小屋">
-<meta property="og:description" content="随机森林是基于决策树的分类方法 随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林  决策树什么是决策树 有$n$份样本$(Yi,X{i1},\cdots,X_{ip})$，这里$i&#x3D; 1,\dots, n$，样本有$p$个特征 对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}&#x3D;f">
+<meta property="og:description" content="随机森林是基于决策树的分类方法 随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林  决策树什么是决策树 有$n$份样本$(Y_i,X_{i1},\cdots,X_{ip})$，这里$i&#x3D; 1,\dots, n$，样本有$p$个特征 对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
 <meta property="article:published_time" content="2019-10-21T15:46:08.000Z">
@@ -143,7 +143,7 @@
 <li>随机森林的思路是一步一步提升的：决策树 $\rightarrow $ bagging $\rightarrow$ 随机森林</li>
 </ul>
 <h1 id="决策树"><a href="#决策树" class="headerlink" title="决策树"></a>决策树</h1><h2 id="什么是决策树"><a href="#什么是决策树" class="headerlink" title="什么是决策树"></a>什么是决策树</h2><ul>
-<li>有$n$份样本$(Y<em>i,X</em>{i1},\cdots,X_{ip})$，这里$i= 1,\dots, n$，样本有$p$个特征</li>
+<li>有$n$份样本$(Y_i,X_{i1},\cdots,X_{ip})$，这里$i= 1,\dots, n$，样本有$p$个特征</li>
 <li><p>对于某一份样本，通过$X_1 \cdots X_p$的各种抉择，最终得到结果$\hat{Y}=f(X)$</p>
 </li>
 <li><p>下图为网络上找到一张示意图，$X=${女票，陪女票，任务，吃鸡}</p>
@@ -169,17 +169,17 @@
 </li>
 <li><p><strong>不纯度</strong>的概念：</p>
 <ul>
-<li><p>$Y$有$K$个类别，即最终的结果有$K$种，如上面的图就有五种类别，记为$\Pi<em>{1}, \dots, \Pi</em>{k}$</p>
+<li><p>$Y$有$K$个类别，即最终的结果有$K$种，如上面的图就有五种类别，记为$\Pi_{1}, \dots, \Pi_{k}$</p>
 </li>
 <li><p>不纯度函数$i(\tau)=\phi(p(1 | \tau), \ldots, p(K | \tau))$</p>
 </li>
-<li><p>$p(i | \tau)$是$P\left(X \in \Pi<em>{i} | \tau\right)$的点估计，即$p(k | \tau) = \sum</em>{i}^{n}I{(X<em>i\in \Pi</em>{k})}/n$</p>
+<li><p>$p(i | \tau)$是$P\left(X \in \Pi_{i} | \tau\right)$的点估计，即$p(k | \tau) = \sum_{i}^{n}I{(X_i\in \Pi_{k})}/n$</p>
 </li>
 <li><p>常用的不纯度函数：</p>
 <ul>
 <li>错分率：$i(\tau)=1-\max _{k}(p(k | \tau))$</li>
 <li>熵函数：$i(\tau)=-\sum_{k=1}^{K} p(k | \tau) \log p(k | \tau)$</li>
-<li>Gini指数：$i(\tau)=\sum<em>{k^{\prime}=1}^{K}\sum</em>{k \neq k^{\prime}}p(k | \tau) p\left(k^{\prime} | \tau\right)=1-\sum_{k}{p(k | \tau)}^{2}$</li>
+<li>Gini指数：$i(\tau)=\sum_{k^{\prime}=1}^{K}\sum_{k \neq k^{\prime}}p(k | \tau) p\left(k^{\prime} | \tau\right)=1-\sum_{k}\{p(k | \tau)\}^{2}$</li>
 </ul>
 </li>
 </ul>
@@ -306,10 +306,10 @@
 </li>
 <li><p>假设我们有$n$个事件，每个事件的发生概率为$p_i (i=1,\dots,n)$，我们定义香农熵函数为$H$</p>
 <ul>
-<li>那么样本空间$(p<em>1, \dots, p_n)$中的一个点$(p</em>{1}^{<em>}, \dots, p_{n}^{</em>})$，该点的香浓熵为$H(p<em>{1}^{*}, \dots, p</em>{n}^{*})$</li>
+<li>那么样本空间$(p_1, \dots, p_n)$中的一个点$(p_{1}^{<em>}, \dots, p_{n}^{</em>})$，该点的香浓熵为$H(p_{1}^{<em>}, \dots, p_{n}^{</em>})$</li>
 <li>$H$函数有以下性质：</li>
-<li>$\forall (p<em>{1}^{*}, \dots, p</em>{n}^{<em>}) $，有$H(p_{1}^{</em>}, \dots, p_{n}^{*}) \leq H(\frac{1}{n}, \dots, \frac{1}{n})$</li>
-<li>$H(p<em>{1}^{*}, \dots, p</em>{n}^{*}) \leq H(\frac{1}{n}, \dots, \frac{1}{n})$是$n$的严格递增函数</li>
+<li>$\forall (p_{1}^{<em>}, \dots, p_{n}^{</em>}) $，有$H(p_{1}^{<em>}, \dots, p_{n}^{</em>}) \leq H(\frac{1}{n}, \dots, \frac{1}{n})$</li>
+<li>$H(p_{1}^{<em>}, \dots, p_{n}^{</em>}) \leq H(\frac{1}{n}, \dots, \frac{1}{n})$是$n$的严格递增函数</li>
 <li>如果一个不确定事件分解成几个持续事件，则原先事件的不确定度等于持续事件不确定度的加权和</li>
 <li>对固定的自然数n，不确定度函数 H 是 (p1, p2, …, pn) 的一个连续函数</li>
 </ul>
