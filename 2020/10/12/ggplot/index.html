@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ggplot | 我的学习小屋</title><meta name="keywords" content="R"><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="ggplot的组成 诸如geom_point()这样的函数，其实都是调用了layor函数  1234567ggplot(data) + layer(  mapping &#x3D; NULL,  data &#x3D; NULL,  geom &#x3D; &quot;point&quot;,  stat &#x3D; &quot;identity&quot;,  position &#x3D; &quot;identity&quot;	)  g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ggplot">
+<meta property="og:url" content="http://yangsp5.github.io/2020/10/12/ggplot/index.html">
+<meta property="og:site_name" content="我的学习小屋">
+<meta property="og:description" content="ggplot的组成 诸如geom_point()这样的函数，其实都是调用了layor函数  1234567ggplot(data) + layer(  mapping &#x3D; NULL,  data &#x3D; NULL,  geom &#x3D; &quot;point&quot;,  stat &#x3D; &quot;identity&quot;,  position &#x3D; &quot;identity&quot;	)  g">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
+<meta property="article:published_time" content="2020-10-12T06:53:15.000Z">
+<meta property="article:modified_time" content="2020-10-13T11:23:42.000Z">
+<meta property="article:author" content="yangsp5">
+<meta property="article:tag" content="R">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangsp5.github.io/img/top_img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2020/10/12/ggplot/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2020-10-13 19:23:42'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">34</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">ggplot</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-10-12T06:53:15.000Z" title="Created 2020-10-12 14:53:15">2020-10-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2020-10-13T11:23:42.000Z" title="Updated 2020-10-13 19:23:42">2020-10-13</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="ggplot"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="ggplot的组成"><a href="#ggplot的组成" class="headerlink" title="ggplot的组成"></a>ggplot的组成</h1><ul>
+<li>诸如<code>geom_point()</code>这样的函数，其实都是调用了<code>layor</code>函数</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ggplot(data) + layer(</span><br><span class="line">  mapping = <span class="literal">NULL</span>,</span><br><span class="line">  data = <span class="literal">NULL</span>,</span><br><span class="line">  geom = <span class="string">&quot;point&quot;</span>,</span><br><span class="line">  stat = <span class="string">&quot;identity&quot;</span>,</span><br><span class="line">  position = <span class="string">&quot;identity&quot;</span></span><br><span class="line">	)</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>ggplot的组成部分：<code>data</code>、<code>layer</code>、<code>geom</code>、<code>mapping</code>、<code>stat</code>、<code>position</code></p>
+</li>
+<li><p><code>data</code>一定是数据框</p>
+</li>
+<li><p><code>geom_point()</code>之类的函数，必须有<code>aes()</code>，即aesthetic mappings，指定了数据框中的变量怎么映射到图片中。在<code>ggplot(data, aes())</code>中写<code>aes()</code>，和<code>geom_point(data, aes())</code>中指定，是一样的；但是有多个图层的时候，前者的<code>aes</code>所有图层都能用。</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># aes里面都是：某个属性=某一列，或，某个属性=某个值</span></span><br><span class="line"><span class="comment"># 某个属性=某个值，aes自动会在数据框中添加一列，全是该数值</span></span><br><span class="line">aes()</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>geom</code>函数</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">geom_blank(): display nothing. Most useful <span class="keyword">for</span> adjusting axes limits using data.</span><br><span class="line">geom_point(): points.</span><br><span class="line">geom_path(): paths.</span><br><span class="line">geom_ribbon(): ribbons, a path with vertical thickness.</span><br><span class="line">geom_segment(): a line segment, specified by start and end position.</span><br><span class="line">geom_rect(): rectangles.</span><br><span class="line">geom_polyon(): filled polygons.</span><br><span class="line">geom_text(): text.</span><br><span class="line"><span class="comment"># 离散单变量</span></span><br><span class="line">geom_bar(): display distribution of discrete variable.</span><br><span class="line"><span class="comment"># 连续单变量</span></span><br><span class="line">geom_histogram(): bin and count continuous variable, display with bars.</span><br><span class="line">geom_density(): smoothed density estimate.</span><br><span class="line">geom_dotplot(): stack individual points into a dot plot.</span><br><span class="line">geom_freqpoly(): bin and count continuous variable, display with lines.</span><br><span class="line"><span class="comment"># 连续双变量</span></span><br><span class="line">geom_point(): scatterplot.</span><br><span class="line">geom_quantile(): smoothed quantile regression.</span><br><span class="line">geom_rug(): marginal rug plots.</span><br><span class="line">geom_smooth(): smoothed line of best fit.</span><br><span class="line">geom_text(): text labels.</span><br><span class="line"><span class="comment"># 展示分布的函数</span></span><br><span class="line">geom_bin2d(): bin into rectangles and count.</span><br><span class="line">geom_density2d(): smoothed <span class="number">2</span>d density estimate.</span><br><span class="line">geom_hex(): bin into hexagons and count.</span><br><span class="line"><span class="comment"># 两个变量，至少一个是离散的</span></span><br><span class="line">geom_count(): count number of point at distinct locations</span><br><span class="line">geom_jitter(): randomly jitter overlapping points.</span><br><span class="line"><span class="comment"># 一个离散，一个连续</span></span><br><span class="line">geom_bar(stat = <span class="string">&quot;identity&quot;</span>): a bar chart of precomputed summaries.</span><br><span class="line">geom_boxplot(): boxplots.</span><br><span class="line">geom_violin(): show density of values <span class="keyword">in</span> each group.</span><br><span class="line"><span class="comment"># 一个时间，一个连续</span></span><br><span class="line">geom_area(): area plot.</span><br><span class="line">geom_line(): line plot.</span><br><span class="line">geom_step(): step plot.</span><br><span class="line"><span class="comment"># Display uncertainty，没懂这个是啥</span></span><br><span class="line">geom_crossbar(): vertical bar with center.</span><br><span class="line">geom_errorbar(): error bars.</span><br><span class="line">geom_linerange(): vertical line.</span><br><span class="line">geom_pointrange(): vertical line with center.</span><br><span class="line"><span class="comment"># 画地图</span></span><br><span class="line">geom_map()</span><br><span class="line"><span class="comment"># 三个变量的</span></span><br><span class="line">geom_contour(): contours.</span><br><span class="line">geom_tile(): tile the plane with rectangles.</span><br><span class="line">geom_raster(): fast version of geom tile() <span class="keyword">for</span> equal sized tiles.</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>stat</code>，用于数据的转换</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">stat_bin(): geom bar(), geom freqpoly(), geom histogram()</span><br><span class="line">stat_bin2d(): geom bin2d()</span><br><span class="line">stat_bindot(): geom dotplot()</span><br><span class="line">stat_binhex(): geom hex()</span><br><span class="line">stat_boxplot(): geom boxplot()</span><br><span class="line">stat_contour(): geom contour()</span><br><span class="line">stat_quantile(): geom quantile()</span><br><span class="line">stat_smooth(): geom smooth()</span><br><span class="line">stat_sum(): geom count()</span><br><span class="line"></span><br><span class="line">stat_ecdf(): compute a empirical cumulative distribution plot.</span><br><span class="line">stat_function(): compute y values from a <span class="keyword">function</span> of x values.</span><br><span class="line">stat_summary(): summarise y values at distinct x values.</span><br><span class="line">stat_summary2d(), stat summary hex(): summarise binned values.</span><br><span class="line">stat_qq(): perform calculations <span class="keyword">for</span> a quantile-quantile plot.</span><br><span class="line">stat_spoke(): convert angle and radius to position.</span><br><span class="line">stat_unique(): remove duplicated rows.</span><br><span class="line"><span class="comment"># ggplot</span></span><br><span class="line">ggplot(mpg, aes(trans, cty)) +</span><br><span class="line">  geom_point() +</span><br><span class="line">  stat_summary(geom = <span class="string">&quot;point&quot;</span>, fun.y = <span class="string">&quot;mean&quot;</span>)</span><br><span class="line"><span class="comment"># 等价于</span></span><br><span class="line">ggplot(mpg, aes(trans, cty)) +</span><br><span class="line">  geom_point() +</span><br><span class="line">  geom_point(stat = <span class="string">&quot;summary&quot;</span>, fun.y = <span class="string">&quot;mean&quot;</span>)</span><br><span class="line"><span class="comment"># position</span></span><br><span class="line">position_stack(): stack overlapping bars (or areas) on top of each other.</span><br><span class="line">position_fill(): stack overlapping bars, scaling so the top is always at <span class="number">1.</span></span><br><span class="line">position_dodge(): place overlapping bars (or boxplots) side-by-side.</span><br><span class="line">position_nudge(): move points by a fixed offset.</span><br><span class="line">position_jitter(): add a little random noise to every position.</span><br><span class="line">position_jitterdodge(): dodge points within groups, then add a little random noise.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>scale控制能看到的东西，如size, colour, position or shape, axes and legends</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>图例</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">labs(color=<span class="string">&#x27;xx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">aes(x=x, y=y, color=<span class="string">&#x27;某一列&#x27;</span>, size = <span class="string">&#x27;某一列&#x27;</span>, shape=<span class="string">&#x27;某一列&#x27;</span>, group=<span class="string">&#x27;一列&#x27;</span>, fill=<span class="string">&#x27;离散&#x27;</span>, weight=<span class="string">&#x27;&#x27;</span>)</span><br><span class="line"><span class="comment"># 如果fill要作用在连续型变量上，需要group</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意，下面的两行代码，第一条代码有图例，第二条代码没有图例</span></span><br><span class="line">ggplot(mpg, aes(displ, hwy)) + geom_point(aes(colour = <span class="string">&quot;blue&quot;</span>))</span><br><span class="line">ggplot(mpg, aes(displ, hwy)) + geom_point(colour = <span class="string">&quot;blue&quot;</span>)</span><br><span class="line"><span class="comment"># 在ggplot里面标明的aes对所有图层有效，可以在某个图层上再指定aes，来覆盖掉ggplot里面的aes</span></span><br><span class="line">ggplot(data, aes(x,y,group=z)) + geom_line(aes(y,z,group=a))</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Scales: colour, or size, or shape. Scales draw a legend or axes</li>
+<li>coord</li>
+<li>Facet，分面</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ggplot(mpg, aes(displ, hwy)) +</span><br><span class="line">	geom_point() +</span><br><span class="line">	facet_wrap(~<span class="built_in">class</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Theme</li>
+</ul>
+<h1 id="geom-函数"><a href="#geom-函数" class="headerlink" title="geom_函数"></a>geom_函数</h1><ul>
+<li>下面的<code>aes()</code>都需要<code>x</code>和<code>y</code>，</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">geom_area()</span><br><span class="line">geom bar(stat = <span class="string">&quot;identity&quot;</span>)</span><br><span class="line">geom_line()</span><br><span class="line">geom point()</span><br><span class="line"><span class="comment"># polygons多边形</span></span><br><span class="line">geom polygon()</span><br><span class="line">geom_boxplot()</span><br><span class="line">geom_violin()</span><br><span class="line">geom rect(), geom tile() and geom raster() draw rectangles.</span><br><span class="line"><span class="comment"># ggplot不支持3d图层，但是支持瓷砖图、气泡图</span></span><br><span class="line">geom_contour()</span><br><span class="line">geom_raster()</span><br><span class="line"></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">geom_bin2d()</span><br><span class="line">geom_hex()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 不确定的数据</span></span><br><span class="line">• Discrete x, <span class="built_in">range</span>: geom errorbar(), geom linerange()</span><br><span class="line">• Discrete x, <span class="built_in">range</span> &amp; center: geom crossbar(), geom pointrange()</span><br><span class="line">• Continuous x, <span class="built_in">range</span>: geom ribbon()</span><br><span class="line">• Continuous x, <span class="built_in">range</span> &amp; center: geom smooth(stat = <span class="string">&quot;identity&quot;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>加注释，<code>geom_text</code>或<code>annotate</code>，指定图的位置，内容<code>label</code></li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">yrng &lt;- <span class="built_in">range</span>(economics$unemploy)</span><br><span class="line">xrng &lt;- <span class="built_in">range</span>(economics$date)</span><br><span class="line">caption &lt;- paste(strwrap(<span class="string">&quot;Unemployment rates in the US have</span></span><br><span class="line"><span class="string">varied a lot over the years&quot;</span>, <span class="number">40</span>), collapse = <span class="string">&quot;\n&quot;</span>)</span><br><span class="line">ggplot(economics, aes(date, unemploy)) +</span><br><span class="line">geom_line() +</span><br><span class="line">geom_text(</span><br><span class="line">aes(x, y, label = caption),</span><br><span class="line">data = data.frame(x = xrng[<span class="number">1</span>], y = yrng[<span class="number">2</span>], caption = caption),</span><br><span class="line">hjust = <span class="number">0</span>, vjust = <span class="number">1</span>, size = <span class="number">4</span> )</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">ggplot(economics, aes(date, unemploy)) +</span><br><span class="line">geom_line() +</span><br><span class="line">annotate(<span class="string">&quot;text&quot;</span>, x = xrng[<span class="number">1</span>], y = yrng[<span class="number">2</span>], label = caption,</span><br><span class="line">hjust = <span class="number">0</span>, vjust = <span class="number">1</span>, size = <span class="number">4</span> )</span><br></pre></td></tr></table></figure>
+<ul>
+<li></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/R/">R</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/11/30/Transformer/"><img class="prev-cover" src="/2020/11/30/Transformer/multi_head.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Transformer</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/03/hive/"><img class="next-cover" src="/img/top_img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">hive</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/katto.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">yangsp5</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">34</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yangsp5"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ggplot%E7%9A%84%E7%BB%84%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">ggplot的组成</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#geom-%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">geom_函数</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/top_img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By yangsp5</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>线性回归 | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X{i1},\cdots ,X{i,p-1},Yi)$，每个样本有真实的关系为$Y&#x3D;f{true}(X)+\varepsilon">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线性回归">
+<meta property="og:url" content="http://yangsp5.github.io/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/index.html">
+<meta property="og:site_name" content="我的学习小屋">
+<meta property="og:description" content="本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508 课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析  一、线性回归的基本概念1. 真实的模型与线性回归 我们有$n$个样本$(X{i1},\cdots ,X{i,p-1},Yi)$，每个样本有真实的关系为$Y&#x3D;f{true}(X)+\varepsilon">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangsp5.github.io/img/%E5%BA%94%E7%94%A8%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%B0%81%E9%9D%A2.jpg">
+<meta property="article:published_time" content="2020-04-20T10:12:06.000Z">
+<meta property="article:modified_time" content="2021-04-07T13:44:41.216Z">
+<meta property="article:author" content="yangsp5">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangsp5.github.io/img/%E5%BA%94%E7%94%A8%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%B0%81%E9%9D%A2.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-04-07 21:44:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">34</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/%E5%BA%94%E7%94%A8%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%B0%81%E9%9D%A2.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">线性回归</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2020-04-20T10:12:06.000Z" title="Created 2020-04-20 18:12:06">2020-04-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-07T13:44:41.216Z" title="Updated 2021-04-07 21:44:41">2021-04-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BB%9F%E8%AE%A1/">统计</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="线性回归"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li>本文使用的教材为《Applied Linear Statistical Models》Fifth Edition，P1~P508</li>
+<li>课本从简单的一元线性回归讲起，再引入矩阵，拓展到多元线性回归分析</li>
+</ul>
+<h1 id="一、线性回归的基本概念"><a href="#一、线性回归的基本概念" class="headerlink" title="一、线性回归的基本概念"></a>一、线性回归的基本概念</h1><h2 id="1-真实的模型与线性回归"><a href="#1-真实的模型与线性回归" class="headerlink" title="1. 真实的模型与线性回归"></a>1. 真实的模型与线性回归</h2><ul>
+<li>我们有$n$个样本$(X<em>{i1},\cdots ,X</em>{i,p-1},Y<em>i)$，每个样本有真实的关系为$Y=f</em>{true}(X)+\varepsilon_{true}$</li>
+<li>我们用线性关系拟合$f<em>{true}$，即响应变量$Y_i$和预测变量$X_i$满足关系$Y</em>{i}=\beta<em>{0}+\beta</em>{1} X<em>{i 1}+\beta</em>{2} X<em>{i 2}+\cdots+\beta</em>{p-1} X<em>{i, p-1}+\varepsilon</em>{i}, \quad i=1,2, \ldots, n$</li>
+<li>矩阵形式为：$Y=X \beta+\varepsilon$，$Y \varepsilon$都是$n \times 1$的随机向量</li>
+</ul>
+<script type="math/tex; mode=display">
+\boldsymbol{Y}=\left[\begin{array}{c}{Y_{1}} \\ {Y_{2}} \\ {\vdots} \\ {Y_{n}}\end{array}\right], \boldsymbol{X}=\left[\begin{array}{cccc}{1} & {X_{11}} & {\dots} & {X_{1, p-1}} \\ {1} & {X_{21}} & {\dots} & {X_{2, p-1}} \\ {\vdots} & {\vdots} & {\vdots} & {\vdots} \\ {1} & {X_{n 1}} & {\dots} & {X_{n, p-1}}\end{array}\right], \boldsymbol{\beta}=\left[\begin{array}{c}{\beta_{0}} \\ {\beta_{1}} \\ {\vdots} \\ {\beta_{p-1}}\end{array}\right], \boldsymbol{\varepsilon}=\left[\begin{array}{c}{\varepsilon_{1}} \\ {\varepsilon_{2}} \\ {\vdots} \\ {\varepsilon_{n}}\end{array}\right]</script><ul>
+<li><p>注意一点，在多个变量的线性回归中，变量之间不一定是相互独立的</p>
+</li>
+<li><p>矩阵形式有：$\varepsilon \sim N(\mathbf{0}<em>{n},\sigma^{2} \boldsymbol{I}</em>{n})$</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 例子</span></span><br><span class="line">n = <span class="number">1000</span></span><br><span class="line">set.seed(<span class="number">1</span>)</span><br><span class="line">x1 = rnorm(n)</span><br><span class="line">x2 = rnorm(n)</span><br><span class="line">x3 = rnorm(n)</span><br><span class="line">x4 = ifelse(rnorm(n) &lt; <span class="number">0</span>, <span class="string">&#x27;0&#x27;</span>, <span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">y = <span class="number">1</span>*x1 + <span class="number">2</span>*x2 + <span class="number">3</span>*x3 + rnorm(n)</span><br><span class="line">dat = as.data.frame(cbind(x1, x2, x3, x4, y))</span><br><span class="line"><span class="comment"># 拟合模型</span></span><br><span class="line">fit = lm(y~., data = dat)</span><br></pre></td></tr></table></figure>
+<h2 id="2-线性回归的要求"><a href="#2-线性回归的要求" class="headerlink" title="2. 线性回归的要求"></a>2. 线性回归的要求</h2><ul>
+<li><p>$Y$的趋势在不同$X$下是不同的，即在不同的$X$下，$Y$有不同的概率分布</p>
+</li>
+<li><p>$Y$的均值在不同的$X$下不同</p>
+</li>
+<li><p>$\beta_0 \beta_1$为参数，$X_i$看作已知的常数</p>
+</li>
+<li><p>$\varepsilon<em>i$看作随机变量，$E\left{\varepsilon</em>{i}\right}=0\quad \sigma^{2}\left{\varepsilon_{i}\right}=\sigma^{2}$</p>
+</li>
+<li><p>$\varepsilon_i$与$\varepsilon_j$不相关</p>
+</li>
+</ul>
+<p><img src="/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/1.jpg" alt></p>
+<h2 id="3-如何拟合参数"><a href="#3-如何拟合参数" class="headerlink" title="3. 如何拟合参数"></a>3. 如何拟合参数</h2><ul>
+<li><p>最小二乘法求参，矩阵形式为：</p>
+<script type="math/tex; mode=display">
+ \\
+Q=(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})^{\prime}(\boldsymbol{Y}-\boldsymbol{X} \boldsymbol{\beta})=\boldsymbol{Y}^{\prime} \boldsymbol{Y}-2 \boldsymbol{\beta}^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{Y}+\boldsymbol{\beta}^{\prime} \boldsymbol{X}^{\prime} \boldsymbol{X} \boldsymbol{\beta}</script><script type="math/tex; mode=display">
+\boldsymbol{b}=\left(\boldsymbol{X}^{\prime} \boldsymbol{X}\right)^{-1} \boldsymbol{X}^{\prime} \boldsymbol{Y}</script></li>
+<li><p>拟合后得到预测值$\hat{Y}=Xb=HY=X(X^TX)^{-1}X^TY$</p>
+</li>
+<li><p>残差$e_i = Y_i-\hat{Y_i}$，衡量预测值与观测值的差距</p>
+</li>
+<li><p>$\sigma^2$的估计值$s^{2}=MSE=\frac{\sum<em>{i=1}^{n}\left(Y</em>{i}-\bar{Y}\right)^{2}}{p-1}$，有$E{M S E}=\sigma^{2}$</p>
+<p>$Var(\hat{Y}) = \sigma^2H,\hat{Var}(\hat{Y})=MSE \cdot H$</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&gt; summary(fit)</span><br><span class="line"></span><br><span class="line">Call:</span><br><span class="line">lm(formula = y ~ ., data = dat)</span><br><span class="line"></span><br><span class="line">Residuals:</span><br><span class="line">     Min       <span class="number">1</span>Q   Median       <span class="number">3</span>Q      Max </span><br><span class="line">-<span class="number">3.08689</span> -<span class="number">0.67290</span>  <span class="number">0.01275</span>  <span class="number">0.66285</span>  <span class="number">2.98838</span> </span><br><span class="line"></span><br><span class="line">Coefficients:</span><br><span class="line">            Estimate Std. Error t value Pr(&gt;|t|)    </span><br><span class="line">(Intercept)  <span class="number">0.01375</span>    <span class="number">0.04482</span>   <span class="number">0.307</span>    <span class="number">0.759</span>    </span><br><span class="line">x1           <span class="number">1.00473</span>    <span class="number">0.03068</span>  <span class="number">32.746</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x2           <span class="number">1.95967</span>    <span class="number">0.03048</span>  <span class="number">64.285</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x3           <span class="number">2.97810</span>    <span class="number">0.03088</span>  <span class="number">96.451</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x4          -<span class="number">0.03659</span>    <span class="number">0.06360</span>  -<span class="number">0.575</span>    <span class="number">0.565</span>    </span><br><span class="line">---</span><br><span class="line">Signif. codes:  <span class="number">0</span> ‘***’ <span class="number">0.001</span> ‘**’ <span class="number">0.01</span> ‘*’ <span class="number">0.05</span> ‘.’ <span class="number">0.1</span> ‘ ’ <span class="number">1</span></span><br><span class="line"></span><br><span class="line">Residual standard error: <span class="number">1.002</span> on <span class="number">995</span> degrees of freedom</span><br><span class="line">Multiple R-squared:  <span class="number">0.9387</span>,	Adjusted R-squared:  <span class="number">0.9384</span> </span><br><span class="line"><span class="built_in">F</span>-statistic:  <span class="number">3808</span> on <span class="number">4</span> and <span class="number">995</span> DF,  p-value: &lt; <span class="number">2.2e-16</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-正态线性模型"><a href="#4-正态线性模型" class="headerlink" title="4. 正态线性模型"></a>4. 正态线性模型</h2><ul>
+<li>假定误差项$\varepsilon_i$独立服从$N(0,\sigma^2)$</li>
+<li>这个模型很常用，所以经常要<strong>检验误差是否真的是正态</strong></li>
+</ul>
+<h1 id="二、线性模型的统计推断"><a href="#二、线性模型的统计推断" class="headerlink" title="二、线性模型的统计推断"></a>二、线性模型的统计推断</h1><h2 id="1-检验整个模型"><a href="#1-检验整个模型" class="headerlink" title="1.  检验整个模型"></a>1.  检验整个模型</h2><ul>
+<li>$H<em>{0}: \beta</em>{1}=\cdots=\beta<em>{p-1}=0,\quad H</em>{a}: \beta_{k} \neq 0$ for at least one $k$</li>
+<li>构造统计量$F=\frac{M S R}{M S E}$，有$F \sim F(p-1, n-p)$</li>
+<li>就是<code>summary(fit)</code>的最后一行</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">F</span>-statistic:  <span class="number">3808</span> on <span class="number">4</span> and <span class="number">995</span> DF,  p-value: &lt; <span class="number">2.2e-16</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-检验某个系数"><a href="#2-检验某个系数" class="headerlink" title="2. 检验某个系数"></a>2. 检验某个系数</h2><ul>
+<li>$H<em>{0}: \beta</em>{k}=0,\quad H<em>{a}: \beta</em>{k} \neq 0$</li>
+<li><p>构造统计量$t<em>{k}=\frac{b</em>{k}-\beta<em>{k}}{s\left{b</em>{k}\right}} \sim t(n-p)$</p>
+</li>
+<li><p>就是<code>summary(fit)</code>中每个变量后的t检验，如x4的p值0.565，有理由认为x4的系数为0</p>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Coefficients:</span><br><span class="line">            Estimate Std. Error t value Pr(&gt;|t|)    </span><br><span class="line">(Intercept)  <span class="number">0.01375</span>    <span class="number">0.04482</span>   <span class="number">0.307</span>    <span class="number">0.759</span>    </span><br><span class="line">x1           <span class="number">1.00473</span>    <span class="number">0.03068</span>  <span class="number">32.746</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x2           <span class="number">1.95967</span>    <span class="number">0.03048</span>  <span class="number">64.285</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x3           <span class="number">2.97810</span>    <span class="number">0.03088</span>  <span class="number">96.451</span>   &lt;<span class="number">2e-16</span> ***</span><br><span class="line">x4          -<span class="number">0.03659</span>    <span class="number">0.06360</span>  -<span class="number">0.575</span>    <span class="number">0.565</span>    </span><br></pre></td></tr></table></figure>
+<h2 id="3-多个系数的检验"><a href="#3-多个系数的检验" class="headerlink" title="3. 多个系数的检验"></a>3. 多个系数的检验</h2><ul>
+<li>还可以构造多个系数的统统检验</li>
+<li>$H<em>{0}: \beta</em>{k<em>{i}}=0, i=1,2, \ldots, g, \quad H</em>{a}: \beta<em>{k</em>{i}} \neq 0,$ for some $i=1,2, \dots, g$，这里的$g&lt; p-1$</li>
+<li>构造统计量$F=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) /\left(d f<em>{R}-d f</em>{F}\right)}{\operatorname{SSE}(F) / d f_{F}}=\frac{\operatorname{SSE}(R)-\operatorname{SSE}(F) / g}{\operatorname{SSE}(F) /(n-p)}$</li>
+<li>其实这个就是General Linear Test Approach的思想</li>
+</ul>
+<h2 id="4-E-Y-h-的区间估计"><a href="#4-E-Y-h-的区间估计" class="headerlink" title="4. $E(Y_h)$的区间估计"></a>4. $E(Y_h)$的区间估计</h2><ul>
+<li>上述提到在不同的$X$下，$Y$有不同的概率分布，也即给定了$X_h$，$Y_h$有一个概率分布，现在来估计$Y_h$的<strong>均值</strong>的<strong>置信区间</strong></li>
+<li>我们感兴趣的是$E(Y_h)$，但是只有$\hat{Y_h}$，所以通过$\hat{Y_h}$来估计$E(Y_h)$</li>
+<li>有$ E\left{\hat{Y}<em>{h}\right} =E\left{Y</em>{h}\right} \quad  \sigma^{2}\left{\hat{Y}<em>{h}\right} =\sigma^{2}\left[\frac{1}{n}+\frac{\left(X</em>{h}-\bar{X}\right)^{2}}{\sum\left(X_{i}-\bar{X}\right)^{2}}\right]$</li>
+<li>$\frac{\hat{Y}<em>{h}-E\left{Y</em>{h}\right}}{s\left{\hat{Y}<em>{h}\right}}$服从$t(n-2)$，即$1-\alpha$的置信区间为$\hat{Y}</em>{h} \pm t(1-\alpha / 2 ; n-2) s\left{\hat{Y}_{h}\right}$</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">new_x = data.frame(x = seq(-<span class="number">3</span>, <span class="number">3</span>, <span class="number">0.5</span>)) <span class="comment"># 新的点</span></span><br><span class="line"><span class="comment"># E(Y_h)的区间估计</span></span><br><span class="line">pred = predict(fit, newdata = new_x, interval = <span class="string">&#x27;confidence&#x27;</span>)<span class="comment"># 注意这里是confidence</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-新的预测-Y-h-new"><a href="#5-新的预测-Y-h-new" class="headerlink" title="5. 新的预测$Y_{h(new)}$"></a>5. 新的预测$Y_{h(new)}$</h2><ul>
+<li>假设我们已经拟合了一个模型$\widehat{Y}<em>{h}=b</em>{0}+b<em>{1} X</em>{h}$，现在给一个新的值$X_{h(new)}$，我们感兴趣的是预测真实值而不是均值</li>
+<li>即有$Y<em>{h(n e w)}=\beta</em>{0}+\beta<em>{1} X</em>{h}+\epsilon_{h(n e w)}$</li>
+<li>当模型的$\beta$未知，有$\frac{Y<em>{h(n e w)}-\hat{Y}</em>{h}}{S{\operatorname{Pred}}} \sim t(n-2) \quad S{\text {Pred}}=\sqrt{M S E} \sqrt{1+\frac{1}{n}+\frac{\left(X<em>{h}-\bar{X}\right)^{2}}{\sum</em>{i=1}^{n}\left(X_{i}-\bar{X}\right)^{2}}}$</li>
+<li><strong>注意</strong>，这里和上面的$E(Y_h)$的区间估计不一样，统计量的分母不一样</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pred = predict(fit, newdata = new_x, interval = <span class="string">&#x27;prediction&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="6-方差分析"><a href="#6-方差分析" class="headerlink" title="6. 方差分析"></a>6. 方差分析</h2><ul>
+<li><p>方差分析用于两个及两个以上样本均数差别的显著性检验。</p>
+</li>
+<li><p><strong>其实方差分析就是线性回归</strong></p>
+</li>
+<li><p>方差分解：$\sum<em>{i=1}^{n}\left(Y</em>{i}-\bar{Y}\right)^{2}=\sum<em>{i=1}^{n}\left(\hat{Y}</em>{i}-\bar{Y}\right)^{2}+\sum<em>{i=1}^{n}\left(Y</em>{i}-\hat{Y}_{i}\right)^{2}$，即$\mathrm{SSTO}=\mathrm{SSR}+\mathrm{SSE}$</p>
+</li>
+<li><p>方差分析表如下</p>
+<p><img src="/2020/04/20/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/方差分析表.png" alt></p>
+</li>
+<li><p>ANOVA F Test：$H<em>{0}: \beta</em>{1}=0\quad H<em>1: \beta</em>{1} \neq 0$，统计量$F^{*}=\frac{M S R}{M S E}\sim F(1, n-2)$</p>
+</li>
+</ul>
+<h2 id="7-拟合程度"><a href="#7-拟合程度" class="headerlink" title="7. 拟合程度"></a>7. 拟合程度</h2><ul>
+<li>$R$方：$\boldsymbol{R}^{2}=\frac{\boldsymbol{S S R}}{\boldsymbol{S S T O}}$，用于衡量模型的拟合程度</li>
+<li>注意，R方并不一定越高越好，可能会出现误导。</li>
+<li>Adjusted R方：$R_{a}^{2}=1-\frac{S S E /(n-p)}{S S T O /(n-1)}=1-\left(\frac{n-p}{p-1}\right) \frac{S S E}{S S T O}$</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">summary(fit)</span><br></pre></td></tr></table></figure>
+<h2 id="8-Correlation分析"><a href="#8-Correlation分析" class="headerlink" title="8. Correlation分析"></a>8. Correlation分析</h2><ul>
+<li>假设$X$和$Y$都是正态随机变量，令$\rho$为两个随机变量的相关系数</li>
+<li>$E[Y | X]=\mu<em>{Y}+\rho \frac{\sigma</em>{Y}}{\sigma<em>{X}}\left(\mathrm{X}-\mu</em>{X}\right)$，即$\beta<em>{1}=\rho \frac{\sigma</em>{Y}}{\sigma_{X}}$，$\beta_0 = $</li>
+<li>$\rho$的估计量$\mathrm{r}=\pm \sqrt{\frac{S S R}{S S T O}}=\frac{\sum<em>{i=1}^{n}\left(X</em>{i}-\bar{X}\right)\left(Y<em>{i}-\bar{Y}\right)}{\sqrt{\sum</em>{i=1}^{n}\left(X<em>{i}-\bar{X}\right)^{2}} \sqrt{\sum</em>{i=1}^{n}\left(Y_{i}-\bar{Y}\right)^{2}}}$</li>
+<li>做统计推断$H<em>{0}: \rho=0 \quad$ vs $\quad H</em>{a}: \rho \neq 0$</li>
+<li>统计量$T=\frac{r \sqrt{n-2}}{\sqrt{1-r}} \sim \mathrm{t}(\mathrm{n}-2)$，<strong>这个跟$F$检验是一样的</strong></li>
+</ul>
+<h1 id="三、线性模型的诊断与补救措施"><a href="#三、线性模型的诊断与补救措施" class="headerlink" title="三、线性模型的诊断与补救措施"></a>三、线性模型的诊断与补救措施</h1><h2 id="1-残差"><a href="#1-残差" class="headerlink" title="1. 残差"></a>1. 残差</h2><ul>
+<li>什么是残差：在$Y<em>{i}=\beta X_i+\varepsilon</em>{i}$的模型下，$e_i = Y_i-\hat{Y_i}$<ul>
+<li>$\mathrm{E}\left(e<em>{i}\right)=0$，$\operatorname{Var}\left(e</em>{i}\right)=\left[1-\frac{1}{n}-\frac{\left(X<em>{i}-\bar{X}\right)^{2}}{\sum</em>{\mathrm{t}=1}^{n}\left(X<em>{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$，$\operatorname{Cov}\left(e</em>{i}, e<em>{j}\right)=-\left[\frac{1}{n}+\frac{\left(X</em>{i}-\bar{X}\right)\left(X<em>{j}-\bar{X}\right)}{\sum</em>{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}\right] \sigma^{2}$</li>
+<li>当n很大且$X$分布比较好时，有$\operatorname{Var}\left(e<em>{i}\right) \cong \sigma^{2}, \operatorname{Cov}\left(e</em>{i}, e_{j}\right) \cong 0$</li>
+<li>通常残差$e<em>i$在某种程度上可以当作随机误差$\varepsilon</em>{i}$</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fit$residuals</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>学生化残差studentized residual：$e<em>{i}^{S}=\frac{e</em>{i}}{s\left{e<em>{i}\right}}$，$S\left{e</em>{i}\right}=\sqrt{M S E} \sqrt{1-\frac{1}{n}-\frac{X<em>{i}-\bar{X}}{\sum</em>{\mathrm{t}=1}^{n}\left(X_{t}-\bar{X}\right)^{2}}}$</p>
+<ul>
+<li>这个名字的来源：计算$e_i^S$的过程很像统计推断，$e_i$除$s{e_i}$像统计量，像服从student t distribution，但是并不是真正的服从t分布</li>
+</ul>
+</li>
+<li><p>我们可以从残差图中看出一下几点：</p>
+<ul>
+<li>回归方程是否线性</li>
+<li>误差项的方差是否相同</li>
+<li>误差项是否相互独立</li>
+<li>误差项是否正态分布</li>
+<li>outlier</li>
+<li>重要的预测变量$X$是否被忽略</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 检查同方差性</span></span><br><span class="line">library(car)</span><br><span class="line">&gt; ncvTest(fit) <span class="comment"># 这里p值为0.34343，不拒绝‘异方差性’的假设，虽然这很扯淡</span></span><br><span class="line">Non-constant Variance Score Test </span><br><span class="line">Variance formula: ~ fitted.values </span><br><span class="line">Chisquare = <span class="number">0.8975677</span>, Df = <span class="number">1</span>, p = <span class="number">0.34343</span></span><br><span class="line"><span class="comment"># 第二种检查异方差性的方法，看残差图</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>Test for Randomness：Durbin-Watson test</li>
+<li>Test for constancy of error variance：Brown-Forsthe Test、Breusch-Pagan Test</li>
+</ul>
+<h2 id="2-共线性"><a href="#2-共线性" class="headerlink" title="2. 共线性"></a>2. 共线性</h2><ul>
+<li>就是变量之间有严重的相关性，那么变量稍微变化，整个模型的预测值就会波动非常大。解决方法就是去掉一部分变量</li>
+</ul>
+<h2 id="3-补救措施"><a href="#3-补救措施" class="headerlink" title="3. 补救措施"></a>3. 补救措施</h2><ul>
+<li>当模型拟合不好时，主要有两个方面的措施：换模型（下面）、数据变换</li>
+</ul>
+<h1 id="四、回归模型的建模"><a href="#四、回归模型的建模" class="headerlink" title="四、回归模型的建模"></a>四、回归模型的建模</h1><ul>
+<li><p>我们有$p-1$个变量，那么就有$2^{p-1}$个模型（变量是否在模型中），当$p$很大时我们很难跑完所有的模型，那么需要一些评判标准来衡量模型的好坏</p>
+</li>
+<li><p>一般的评判标准：$\frac{SSE_p}{n}+\lambda(p)$，后者为惩罚项</p>
+<p>常用的有Adjusted $R^{2}, C_{p}, M S E, P R E S S, A I C$ and $B I C$</p>
+<ul>
+<li>$R_{a, p}^{2}=1-\frac{n-1}{n-p} \frac{S S E(p)}{S S T O}=1-\frac{M S E(p)}{S S T O /(n-1)}$</li>
+<li>$C<em>{p}=\frac{S S E(p)}{M S E\left(X</em>{1}, X<em>{2}, \ldots, X</em>{P-1}\right)}-(n-2 p)$</li>
+<li>$AIC = n\log (\operatorname{SSE}(p))-n \log (n)+2 p$</li>
+<li>$BIC=\operatorname{n} \log (S S E(p))-n \log (n)+\log(n)p$</li>
+<li>$\operatorname{PRESS}(p)=\sum<em>{i=1}^{n}\left(Y</em>{i}-\hat{Y}<em>{i(i)}\right)^{2}$，其中$\hat{Y}</em>{i(i)}$是删去第$i$个样本拟合后，再对第$i$个样本做的预测</li>
+<li>$Y<em>{i}-\hat{Y}</em>{i(i)}=\frac{e<em>{i}}{1-h</em>{i i}}=\frac{Y<em>{i}-\hat{Y}</em>{i}}{1-h<em>{i i}}$，$h</em>{ii}$是$H$的第$i$个对角元素</li>
+</ul>
+</li>
+<li><p>选变量的方法：</p>
+<ul>
+<li><p>子集选择（subset selection）</p>
+<ul>
+<li>最佳子集算法：选择一个评判标准，选择一些变量，如<code>bess</code></li>
+<li>向前、向后逐步回归，如<code>stepAIC</code></li>
+</ul>
+</li>
+<li><p>压缩估计（shrinkage）</p>
+<p>有最小二乘估计$\hat{\beta}_{(o l s)}=\underset{\beta}{\operatorname{argmin}}(Y-X \beta)^{T}(Y-X \beta)$</p>
+<p>加入惩罚项有$\phi(\beta)=(Y-X \beta)^{T}(Y-X \beta)+\lambda \boldsymbol{p}(\boldsymbol{\beta})$</p>
+<ul>
+<li>岭回归Ridge Regression：$p(\beta)=|| \beta||_{2}^{2}$</li>
+<li>LASSO：$p(\beta)=|\beta|_{1}$</li>
+</ul>
+</li>
+<li><p>投影（projection related）</p>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/04/23/Matlab%E7%BC%96%E5%86%99%E4%B9%90%E8%B0%B1/"><img class="prev-cover" src="/img/top_img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">Matlab编写乐谱</div></div></a></div><div class="next-post pull-right"><a href="/2020/04/20/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img class="next-cover" src="/img/top_img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">正则表达式</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/katto.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">yangsp5</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">34</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">10</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yangsp5"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">一、线性回归的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%9C%9F%E5%AE%9E%E7%9A%84%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">1. 真实的模型与线性回归</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%9A%84%E8%A6%81%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">2. 线性回归的要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A6%82%E4%BD%95%E6%8B%9F%E5%90%88%E5%8F%82%E6%95%B0"><span class="toc-number">1.3.</span> <span class="toc-text">3. 如何拟合参数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%AD%A3%E6%80%81%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">4. 正态线性模型</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%8E%A8%E6%96%AD"><span class="toc-number">2.</span> <span class="toc-text">二、线性模型的统计推断</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%A3%80%E9%AA%8C%E6%95%B4%E4%B8%AA%E6%A8%A1%E5%9E%8B"><span class="toc-number">2.1.</span> <span class="toc-text">1.  检验整个模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%A3%80%E9%AA%8C%E6%9F%90%E4%B8%AA%E7%B3%BB%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">2. 检验某个系数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%A4%9A%E4%B8%AA%E7%B3%BB%E6%95%B0%E7%9A%84%E6%A3%80%E9%AA%8C"><span class="toc-number">2.3.</span> <span class="toc-text">3. 多个系数的检验</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-E-Y-h-%E7%9A%84%E5%8C%BA%E9%97%B4%E4%BC%B0%E8%AE%A1"><span class="toc-number">2.4.</span> <span class="toc-text">4. $E(Y_h)$的区间估计</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E6%96%B0%E7%9A%84%E9%A2%84%E6%B5%8B-Y-h-new"><span class="toc-number">2.5.</span> <span class="toc-text">5. 新的预测$Y_{h(new)}$</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%96%B9%E5%B7%AE%E5%88%86%E6%9E%90"><span class="toc-number">2.6.</span> <span class="toc-text">6. 方差分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%8B%9F%E5%90%88%E7%A8%8B%E5%BA%A6"><span class="toc-number">2.7.</span> <span class="toc-text">7. 拟合程度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-Correlation%E5%88%86%E6%9E%90"><span class="toc-number">2.8.</span> <span class="toc-text">8. Correlation分析</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B%E7%9A%84%E8%AF%8A%E6%96%AD%E4%B8%8E%E8%A1%A5%E6%95%91%E6%8E%AA%E6%96%BD"><span class="toc-number">3.</span> <span class="toc-text">三、线性模型的诊断与补救措施</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%AE%8B%E5%B7%AE"><span class="toc-number">3.1.</span> <span class="toc-text">1. 残差</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E5%85%B1%E7%BA%BF%E6%80%A7"><span class="toc-number">3.2.</span> <span class="toc-text">2. 共线性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E8%A1%A5%E6%95%91%E6%8E%AA%E6%96%BD"><span class="toc-number">3.3.</span> <span class="toc-text">3. 补救措施</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%9B%9E%E5%BD%92%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%BB%BA%E6%A8%A1"><span class="toc-number">4.</span> <span class="toc-text">四、回归模型的建模</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('/img/%E5%BA%94%E7%94%A8%E5%9B%9E%E5%BD%92%E5%88%86%E6%9E%90%E5%B0%81%E9%9D%A2.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By yangsp5</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
