@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>wenet训练笔记 | 我的学习小屋</title><meta name="keywords" content="语音识别"><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1234567# 这两个是配置环境，在path.sh下修改 &#x2F;KALDI_ROOT的地址. .&#x2F;path.sh || exit 1;. .&#x2F;cmd.sh || exit 1;​nj&#x3D;16feat_dir&#x3D;fbankdict&#x3D;data&#x2F;dict&#x2F;lang_char.txt # 字典位置 step -1 这一步是下载数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wenet训练笔记">
+<meta property="og:url" content="http://yangsp5.github.io/2021/04/07/wenet%E8%AE%AD%E7%BB%83%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="我的学习小屋">
+<meta property="og:description" content="1234567# 这两个是配置环境，在path.sh下修改 &#x2F;KALDI_ROOT的地址. .&#x2F;path.sh || exit 1;. .&#x2F;cmd.sh || exit 1;​nj&#x3D;16feat_dir&#x3D;fbankdict&#x3D;data&#x2F;dict&#x2F;lang_char.txt # 字典位置 step -1 这一步是下载数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
+<meta property="article:published_time" content="2021-04-07T15:32:47.000Z">
+<meta property="article:modified_time" content="2021-04-08T13:20:49.837Z">
+<meta property="article:author" content="yangsp5">
+<meta property="article:tag" content="语音识别">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangsp5.github.io/img/top_img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2021/04/07/wenet%E8%AE%AD%E7%BB%83%E7%AC%94%E8%AE%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-04-08 21:20:49'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">36</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">wenet训练笔记</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-07T15:32:47.000Z" title="Created 2021-04-07 23:32:47">2021-04-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-08T13:20:49.837Z" title="Updated 2021-04-08 21:20:49">2021-04-08</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="wenet训练笔记"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 这两个是配置环境，在path.sh下修改 &#x2F;KALDI_ROOT的地址</span><br><span class="line">. .&#x2F;path.sh || exit 1;</span><br><span class="line">. .&#x2F;cmd.sh || exit 1;</span><br><span class="line">​</span><br><span class="line">nj&#x3D;16</span><br><span class="line">feat_dir&#x3D;fbank</span><br><span class="line">dict&#x3D;data&#x2F;dict&#x2F;lang_char.txt # 字典位置</span><br></pre></td></tr></table></figure>
+<h1 id="step-1"><a href="#step-1" class="headerlink" title="step -1"></a>step -1</h1><ul>
+<li>这一步是下载数据</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># data是数据存放地址，自己下载了的话，就修改位置</span><br><span class="line">data&#x3D;&#x2F;export&#x2F;data&#x2F;asr-data&#x2F;OpenSLR&#x2F;33&#x2F;</span><br><span class="line">data_url&#x3D;www.openslr.org&#x2F;resources&#x2F;33</span><br></pre></td></tr></table></figure>
+<h1 id="step-0"><a href="#step-0" class="headerlink" title="step 0"></a>step 0</h1><ul>
+<li>这个是数据准备，在wenet的s0里面只调用了<code>local/aishell_data_prep.sh</code>，在s1里面还用了kaldi</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># aishell_data_prep.sh</span><br><span class="line"># 输入两个地址， $&#123;data&#125;&#x2F;data_aishell&#x2F;wav $&#123;data&#125;&#x2F;data_aishell&#x2F;transcript</span><br><span class="line"># 第一个是 aishell_audio_dir </span><br><span class="line"># 第二个是aishell_text的翻译文件，aishell_transcript_v0.8.txt</span><br><span class="line"># 在这个脚本里，创建四个目录</span><br><span class="line">train_dir&#x3D;data&#x2F;local&#x2F;train</span><br><span class="line">dev_dir&#x3D;data&#x2F;local&#x2F;dev</span><br><span class="line">test_dir&#x3D;data&#x2F;local&#x2F;test</span><br><span class="line">tmp_dir&#x3D;data&#x2F;local&#x2F;tmp</span><br><span class="line"># tmp只是暂存东西，会删除掉</span><br><span class="line"># train、dev、test的操作是一样的</span><br><span class="line"># train里面有这些东西</span><br></pre></td></tr></table></figure>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train.png?lastModify=1617808620" alt></p>
+<ul>
+<li><code>text</code>里面包括：第一列是音频的文件名，第二列是翻译</li>
+</ul>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_text.png?lastModify=1617808620" alt></p>
+<ul>
+<li><code>transcripts.txt</code>和<code>text</code>一样的</li>
+<li><code>utt.list</code>长这样，是每个音频的文件名</li>
+</ul>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_utt.png?lastModify=1617808620" alt></p>
+<ul>
+<li><code>wav.flist</code>是音频的存放地址</li>
+<li><p><code>wav.scp</code>就是合并<code>utt.list</code>和<code>wav.flist</code><br><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_wav.png?lastModify=1617808620" alt></p>
+<ul>
+<li>最后把<code>data/local/train</code>中的<code>wav.scp</code>和<code>text</code>放到<code>data/train/</code>目录下</li>
+</ul>
+<h1 id="step-1-1"><a href="#step-1-1" class="headerlink" title="step 1"></a>step 1</h1><ul>
+<li>这步是提取特征，这里设置了cmvn=true，这里我只跑了<strong>s0</strong></li>
+<li>在这里调用了kaldi的脚本<code>make_fbank.sh</code>，以后再看这个脚本吧</li>
+<li>当cmvn=true时，统计cmvn，会有两个输出的东西，<code>feats.scp</code>和<code>global_cmvn</code></li>
+<li>下面拿<strong>s0</strong>的输出结果做演示，输出的东西放在<code>$feat_dir/$train_set/global_cmvn</code>里面</li>
+<li>为了方便展示，删了很多<code>mean_stat</code>和<code>var_stat</code>的值</li>
+</ul>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_global_cmvn.png?lastModify=1617808620" alt></p>
+<h1 id="step-2"><a href="#step-2" class="headerlink" title="step 2"></a>step 2</h1><ul>
+<li>这一步是创建字典</li>
+<li>用了<code>tools/text2token.py</code>，自动生成字典，字典长这样</li>
+</ul>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_dict.png?lastModify=1617808620" alt></p>
+<h1 id="step-3"><a href="#step-3" class="headerlink" title="step 3"></a>step 3</h1><ul>
+<li>这一步是将数据整理成想要的格式，也就是格式化</li>
+<li><p>用的是<code>tools/format_data.sh</code>，在s0里面，进一步调用了<code>tools/remove_longshortdata.py</code></p>
+<ul>
+<li>这个脚本输入了四个参数，<code>nj</code>，<code>data/$train_set/feats.scp</code>，<code>data/$train_set</code>，<code>$dict</code></li>
+<li>注意在s0里面，第二个参数是<code>data/$train_set/wav.scp</code></li>
+<li>s0的输出地方是<code>$feat_dir/$train_set/format.data.tmp</code>，在调用了<code>tools/remove_longshortdata.py</code>输出到<code>$feat_dir/$train_set/format.data</code></li>
+<li>s1的输出地方是<code>data/$train_set/formate.data</code></li>
+<li><code>formate.data</code>长这样，分三张图来展示<ul>
+<li>一行一个样本</li>
+<li><code>utt</code>是音频文件名字</li>
+<li><code>feat</code>是音频地址</li>
+<li><code>feat_shape</code>是音频时长</li>
+<li><code>text</code>是说话的内容</li>
+<li><code>token</code>是分词内容</li>
+<li><code>tokenid</code>是分词后，每个token的id</li>
+<li><code>token_shape</code>是：<code>[token的个数，字典最后一个token的id]</code></li>
+<li>字典最后一个是<code>eos</code>和<code>sos</code>，可以在字典最后面看到</li>
+</ul>
+</li>
+</ul>
+<p><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_global_data1.png?lastModify=1617808620" alt><br><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_global_data2.png?lastModify=1617808620" alt><br><img src="file:///Users/a12345/Desktop/OneDrive/wenet_train_global_data3.png?lastModify=1617808620" alt></p>
+<h1 id="step-4"><a href="#step-4" class="headerlink" title="step 4"></a>step 4</h1><ul>
+<li>这个部分就是训练的步骤啦</li>
+<li>这里用的是wenet的train.py，但是这个train.py的单机多卡写得比较垃圾，所以重新写了一份，这里感谢志平</li>
+<li>step 4的启动方式又改了下</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $dir</span><br><span class="line">num_gpus&#x3D;$(nvidia-smi --query-gpu&#x3D;name --format&#x3D;csv,noheader | wc -l)</span><br><span class="line">echo &quot;有$&#123;num_gpus&#125;个GPU dir: $&#123;dir&#125;&quot;</span><br><span class="line"># Use &quot;nccl&quot; if it works, otherwise use &quot;gloo&quot;</span><br><span class="line">dist_backend&#x3D;&quot;nccl&quot;</span><br><span class="line">cp data&#x2F;$&#123;train_set&#125;&#x2F;global_cmvn $dir</span><br><span class="line">cmvn_opts&#x3D;</span><br><span class="line">$cmvn &amp;&amp; cmvn_opts&#x3D;&quot;--cmvn $&#123;dir&#125;&#x2F;global_cmvn&quot;</span><br><span class="line">​</span><br><span class="line">python -m torch.distributed.launch \</span><br><span class="line">  --nproc_per_node&#x3D;$&#123;num_gpus&#125; $PWD&#x2F;wenet&#x2F;bin&#x2F;train_ddp.py \</span><br><span class="line">  --gpu $num_gpus \</span><br><span class="line">  --config $train_config \</span><br><span class="line">  --train_data data&#x2F;$train_set&#x2F;format.data \</span><br><span class="line">  --cv_data data&#x2F;$dev_set&#x2F;format.data \</span><br><span class="line">  $&#123;checkpoint:+--checkpoint $checkpoint&#125; \</span><br><span class="line">  --model_dir $dir \ # 这里是模型的地址</span><br><span class="line">  --ddp.world_size $num_gpus \</span><br><span class="line">  --ddp.rank 0 \</span><br><span class="line">  --ddp.dist_backend $dist_backend \</span><br><span class="line">  --num_workers 0 \ # 有时候设置为8会崩溃</span><br><span class="line">  $cmvn_opts</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>train_ddp.py</code>的定义</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br></pre></td><td class="code"><pre><span class="line"># Copyright (c) 2020 Mobvoi Inc. (authors: Binbin Zhang, Xiaoyu Chen)</span><br><span class="line">#</span><br><span class="line"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span><br><span class="line"># you may not use this file except in compliance with the License.</span><br><span class="line"># You may obtain a copy of the License at</span><br><span class="line">#</span><br><span class="line">#     http:&#x2F;&#x2F;www.apache.org&#x2F;licenses&#x2F;LICENSE-2.0</span><br><span class="line">#</span><br><span class="line"># Unless required by applicable law or agreed to in writing, software</span><br><span class="line"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span><br><span class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span><br><span class="line"># See the License for the specific language governing permissions and</span><br><span class="line"># limitations under the License.</span><br><span class="line">​</span><br><span class="line">from __future__ import print_function</span><br><span class="line">​</span><br><span class="line">import argparse</span><br><span class="line">import copy</span><br><span class="line">import logging</span><br><span class="line">import os</span><br><span class="line">​</span><br><span class="line">import torch</span><br><span class="line">import torch.distributed as dist</span><br><span class="line">import torch.optim as optim</span><br><span class="line">import yaml</span><br><span class="line">from tensorboardX import SummaryWriter</span><br><span class="line">from torch.utils.data import DataLoader</span><br><span class="line">​</span><br><span class="line">from wenet.dataset.dataset import AudioDataset, CollateFunc</span><br><span class="line">from wenet.transformer.asr_model import init_asr_model</span><br><span class="line">from wenet.utils.checkpoint import load_checkpoint, save_checkpoint</span><br><span class="line">from wenet.utils.executor import Executor</span><br><span class="line">from wenet.utils.scheduler import WarmupLR</span><br><span class="line">​</span><br><span class="line">​</span><br><span class="line">if __name__ &#x3D;&#x3D; &#39;__main__&#39;:</span><br><span class="line">    parser &#x3D; argparse.ArgumentParser(description&#x3D;&#39;training your network&#39;)</span><br><span class="line">    parser.add_argument(&#39;--config&#39;, required&#x3D;True, help&#x3D;&#39;config file&#39;)</span><br><span class="line">    parser.add_argument(&#39;--train_data&#39;, required&#x3D;True, help&#x3D;&#39;train data file&#39;)</span><br><span class="line">    parser.add_argument(&#39;--cv_data&#39;, required&#x3D;True, help&#x3D;&#39;cv data file&#39;)</span><br><span class="line">    parser.add_argument(&#39;--gpu&#39;,</span><br><span class="line">                        type&#x3D;int,</span><br><span class="line">                        default&#x3D;-1,</span><br><span class="line">                        help&#x3D;&#39;gpu id for this rank, -1 for cpu&#39;)</span><br><span class="line">    parser.add_argument(&#39;--model_dir&#39;, required&#x3D;True, help&#x3D;&#39;save model dir&#39;)</span><br><span class="line">    parser.add_argument(&#39;--checkpoint&#39;, help&#x3D;&#39;checkpoint model&#39;)</span><br><span class="line">    parser.add_argument(&#39;--tensorboard_dir&#39;,</span><br><span class="line">                        default&#x3D;&#39;tensorboard&#39;,</span><br><span class="line">                        help&#x3D;&#39;tensorboard log dir&#39;)</span><br><span class="line">    parser.add_argument(&#39;--local_rank&#39;, default&#x3D;0, type&#x3D;int, help&#x3D;&#39;node rank for distributed training&#39;)</span><br><span class="line">    parser.add_argument(&#39;--ddp.rank&#39;,</span><br><span class="line">                        dest&#x3D;&#39;rank&#39;,</span><br><span class="line">                        default&#x3D;0,</span><br><span class="line">                        type&#x3D;int,</span><br><span class="line">                        help&#x3D;&#39;node rank for distributed training&#39;)</span><br><span class="line">    parser.add_argument(&#39;--ddp.world_size&#39;,</span><br><span class="line">                        dest&#x3D;&#39;world_size&#39;,</span><br><span class="line">                        default&#x3D;-1,</span><br><span class="line">                        type&#x3D;int,</span><br><span class="line">                        help&#x3D;&#39;number of nodes for distributed training&#39;)</span><br><span class="line">    parser.add_argument(&#39;--ddp.dist_backend&#39;,</span><br><span class="line">                        dest&#x3D;&#39;dist_backend&#39;,</span><br><span class="line">                        default&#x3D;&#39;nccl&#39;,</span><br><span class="line">                        choices&#x3D;[&#39;nccl&#39;, &#39;gloo&#39;],</span><br><span class="line">                        help&#x3D;&#39;distributed backend&#39;)</span><br><span class="line">    parser.add_argument(&#39;--ddp.init_method&#39;,</span><br><span class="line">                        dest&#x3D;&#39;init_method&#39;,</span><br><span class="line">                        default&#x3D;None,</span><br><span class="line">                        help&#x3D;&#39;ddp init method&#39;)</span><br><span class="line">    parser.add_argument(&#39;--num_workers&#39;,</span><br><span class="line">                        default&#x3D;0,</span><br><span class="line">                        type&#x3D;int,</span><br><span class="line">                        help&#x3D;&#39;num of subprocess workers for reading&#39;)</span><br><span class="line">    parser.add_argument(&#39;--cmvn&#39;, default&#x3D;None, help&#x3D;&#39;global cmvn file&#39;)</span><br><span class="line">​</span><br><span class="line">    args &#x3D; parser.parse_args()</span><br><span class="line">​</span><br><span class="line">    logging.basicConfig(level&#x3D;logging.DEBUG,</span><br><span class="line">                        format&#x3D;&#39;%(asctime)s %(levelname)s %(message)s&#39;)</span><br><span class="line">#     os.environ[&#39;CUDA_VISIBLE_DEVICES&#39;] &#x3D; str(args.gpu)</span><br><span class="line">    # Set random seed</span><br><span class="line">    torch.manual_seed(777)</span><br><span class="line">    print(args)</span><br><span class="line">    with open(args.config, &#39;r&#39;) as fin:</span><br><span class="line">        configs &#x3D; yaml.load(fin)</span><br><span class="line">​</span><br><span class="line">    distributed &#x3D; args.world_size &gt;&#x3D; 1</span><br><span class="line">​</span><br><span class="line">    raw_wav &#x3D; configs[&#39;raw_wav&#39;]</span><br><span class="line">​</span><br><span class="line">    train_collate_func &#x3D; CollateFunc(**configs[&#39;collate_conf&#39;],</span><br><span class="line">                                     raw_wav&#x3D;raw_wav)</span><br><span class="line">​</span><br><span class="line">    cv_collate_conf &#x3D; copy.deepcopy(configs[&#39;collate_conf&#39;])</span><br><span class="line">    # no augmenation on cv set</span><br><span class="line">    cv_collate_conf[&#39;spec_aug&#39;] &#x3D; False</span><br><span class="line">    cv_collate_conf[&#39;spec_sub&#39;] &#x3D; False</span><br><span class="line">    if raw_wav:</span><br><span class="line">        cv_collate_conf[&#39;feature_dither&#39;] &#x3D; 0.0</span><br><span class="line">        cv_collate_conf[&#39;speed_perturb&#39;] &#x3D; False</span><br><span class="line">        cv_collate_conf[&#39;wav_distortion_conf&#39;][&#39;wav_distortion_rate&#39;] &#x3D; 0</span><br><span class="line">    cv_collate_func &#x3D; CollateFunc(**cv_collate_conf, raw_wav&#x3D;raw_wav)</span><br><span class="line">​</span><br><span class="line">    dataset_conf &#x3D; configs.get(&#39;dataset_conf&#39;, &#123;&#125;)</span><br><span class="line">    train_dataset &#x3D; AudioDataset(args.train_data,</span><br><span class="line">                                 **dataset_conf,</span><br><span class="line">                                 raw_wav&#x3D;raw_wav)</span><br><span class="line">    cv_dataset &#x3D; AudioDataset(args.cv_data, **dataset_conf, raw_wav&#x3D;raw_wav)</span><br><span class="line">​</span><br><span class="line">    if distributed:</span><br><span class="line">        logging.info(&#39;training on multiple gpu, this gpu &#123;&#125;&#39;.format(args.local_rank))</span><br><span class="line">        dist.init_process_group(args.dist_backend)</span><br><span class="line">        train_sampler &#x3D; torch.utils.data.distributed.DistributedSampler(</span><br><span class="line">            train_dataset, shuffle&#x3D;True)</span><br><span class="line">        cv_sampler &#x3D; torch.utils.data.distributed.DistributedSampler(</span><br><span class="line">            cv_dataset, shuffle&#x3D;False)</span><br><span class="line">    else:</span><br><span class="line">        train_sampler &#x3D; None</span><br><span class="line">        cv_sampler &#x3D; None</span><br><span class="line">​</span><br><span class="line">    train_data_loader &#x3D; DataLoader(train_dataset,</span><br><span class="line">                                   collate_fn&#x3D;train_collate_func,</span><br><span class="line">                                   sampler&#x3D;train_sampler,</span><br><span class="line">                                   shuffle&#x3D;(train_sampler is None),</span><br><span class="line">                                   batch_size&#x3D;1,</span><br><span class="line">                                   num_workers&#x3D;args.num_workers)</span><br><span class="line">    cv_data_loader &#x3D; DataLoader(cv_dataset,</span><br><span class="line">                                collate_fn&#x3D;cv_collate_func,</span><br><span class="line">                                sampler&#x3D;cv_sampler,</span><br><span class="line">                                shuffle&#x3D;False,</span><br><span class="line">                                batch_size&#x3D;1,</span><br><span class="line">                                num_workers&#x3D;args.num_workers)</span><br><span class="line">​</span><br><span class="line">    if raw_wav:</span><br><span class="line">        input_dim &#x3D; configs[&#39;collate_conf&#39;][&#39;feature_extraction_conf&#39;][</span><br><span class="line">            &#39;mel_bins&#39;]</span><br><span class="line">    else:</span><br><span class="line">        input_dim &#x3D; train_dataset.input_dim</span><br><span class="line">    vocab_size &#x3D; train_dataset.output_dim</span><br><span class="line">​</span><br><span class="line">    # Save configs to model_dir&#x2F;train.yaml for inference and export</span><br><span class="line">    configs[&#39;input_dim&#39;] &#x3D; input_dim</span><br><span class="line">    configs[&#39;output_dim&#39;] &#x3D; vocab_size</span><br><span class="line">    configs[&#39;cmvn_file&#39;] &#x3D; args.cmvn</span><br><span class="line">    configs[&#39;is_json_cmvn&#39;] &#x3D; raw_wav</span><br><span class="line">    if args.local_rank &#x3D;&#x3D; 0:</span><br><span class="line">        saved_config_path &#x3D; os.path.join(args.model_dir, &#39;train.yaml&#39;)</span><br><span class="line">        with open(saved_config_path, &#39;w&#39;) as fout:</span><br><span class="line">            data &#x3D; yaml.dump(configs)</span><br><span class="line">            fout.write(data)</span><br><span class="line">​</span><br><span class="line">    # Init asr model from configs</span><br><span class="line">    model &#x3D; init_asr_model(configs)</span><br><span class="line">    print(model)</span><br><span class="line">​</span><br><span class="line">    # !!!IMPORTANT!!!</span><br><span class="line">    # Try to export the model by script, if fails, we should refine</span><br><span class="line">    # the code to satisfy the script export requirements</span><br><span class="line">    script_model &#x3D; torch.jit.script(model)</span><br><span class="line">    script_model.save(os.path.join(args.model_dir, &#39;init.zip&#39;))</span><br><span class="line">    executor &#x3D; Executor()</span><br><span class="line">    # If specify checkpoint, load some info from checkpoint</span><br><span class="line">    if args.checkpoint is not None:</span><br><span class="line">        infos &#x3D; load_checkpoint(model, args.checkpoint)</span><br><span class="line">    else:</span><br><span class="line">        infos &#x3D; &#123;&#125;</span><br><span class="line">    start_epoch &#x3D; infos.get(&#39;epoch&#39;, -1) + 1</span><br><span class="line">    cv_loss &#x3D; infos.get(&#39;cv_loss&#39;, 0.0)</span><br><span class="line">    step &#x3D; infos.get(&#39;step&#39;, -1)</span><br><span class="line">​</span><br><span class="line">    num_epochs &#x3D; configs.get(&#39;max_epoch&#39;, 100)</span><br><span class="line">    model_dir &#x3D; args.model_dir</span><br><span class="line">    writer &#x3D; None</span><br><span class="line">    if args.local_rank &#x3D;&#x3D; 0:</span><br><span class="line">        os.makedirs(model_dir, exist_ok&#x3D;True)</span><br><span class="line">        exp_id &#x3D; os.path.basename(model_dir)</span><br><span class="line">        writer &#x3D; SummaryWriter(os.path.join(args.tensorboard_dir, exp_id))</span><br><span class="line">​</span><br><span class="line">    if distributed:</span><br><span class="line">#         assert (torch.cuda.is_available())</span><br><span class="line">        # cuda model is required for nn.parallel.DistributedDataParallel</span><br><span class="line">        device &#x3D; torch.device(&quot;cuda&quot;, args.local_rank)</span><br><span class="line">        model.to(device)</span><br><span class="line">        model &#x3D; torch.nn.parallel.DistributedDataParallel(</span><br><span class="line">            model, find_unused_parameters&#x3D;True,device_ids&#x3D;[args.local_rank],output_device&#x3D;args.local_rank)</span><br><span class="line">    else:</span><br><span class="line">        use_cuda &#x3D; args.gpu &gt;&#x3D; 0 and torch.cuda.is_available()</span><br><span class="line">        device &#x3D; torch.device(&#39;cuda&#39; if use_cuda else &#39;cpu&#39;, args.local_rank)</span><br><span class="line">        model &#x3D; model.to(device)</span><br><span class="line">​</span><br><span class="line">    optimizer &#x3D; optim.Adam(model.parameters(), **configs[&#39;optim_conf&#39;])</span><br><span class="line">    scheduler &#x3D; WarmupLR(optimizer, **configs[&#39;scheduler_conf&#39;])</span><br><span class="line">    final_epoch &#x3D; None</span><br><span class="line">    configs[&#39;rank&#39;] &#x3D; args.local_rank</span><br><span class="line">    if start_epoch &#x3D;&#x3D; 0 and args.local_rank &#x3D;&#x3D; 0:</span><br><span class="line">        save_model_path &#x3D; os.path.join(model_dir, &#39;init.pt&#39;)</span><br><span class="line">        save_checkpoint(model, save_model_path)</span><br><span class="line">​</span><br><span class="line">    # Start training loop</span><br><span class="line">    executor.step &#x3D; step</span><br><span class="line">    scheduler.set_step(step)</span><br><span class="line">    for epoch in range(start_epoch, num_epochs):</span><br><span class="line">        if distributed:</span><br><span class="line">            train_sampler.set_epoch(epoch)</span><br><span class="line">        lr &#x3D; optimizer.param_groups[0][&#39;lr&#39;]</span><br><span class="line">        logging.info(&#39;Epoch &#123;&#125; TRAIN info lr &#123;&#125;&#39;.format(epoch, lr))</span><br><span class="line">        executor.train(model, optimizer, scheduler, train_data_loader, device,</span><br><span class="line">                       writer, configs)</span><br><span class="line">        total_loss, num_seen_utts &#x3D; executor.cv(model, cv_data_loader, device,</span><br><span class="line">                                                configs)</span><br><span class="line">        if args.world_size &gt; 1:</span><br><span class="line">            # all_reduce expected a sequence parameter, so we use [num_seen_utts].</span><br><span class="line">            num_seen_utts &#x3D; torch.Tensor([num_seen_utts]).to(device)</span><br><span class="line">            # the default operator in all_reduce function is sum.</span><br><span class="line">            dist.all_reduce(num_seen_utts)</span><br><span class="line">            total_loss &#x3D; torch.Tensor([total_loss]).to(device)</span><br><span class="line">            dist.all_reduce(total_loss)</span><br><span class="line">            cv_loss &#x3D; total_loss[0] &#x2F; num_seen_utts[0]</span><br><span class="line">            cv_loss &#x3D; cv_loss.item()</span><br><span class="line">        else:</span><br><span class="line">            cv_loss &#x3D; total_loss &#x2F; num_seen_utts</span><br><span class="line">​</span><br><span class="line">        logging.info(&#39;Epoch &#123;&#125; CV info cv_loss &#123;&#125;&#39;.format(epoch, cv_loss))</span><br><span class="line">        if args.local_rank &#x3D;&#x3D; 0:</span><br><span class="line">            save_model_path &#x3D; os.path.join(model_dir, &#39;&#123;&#125;.pt&#39;.format(epoch))</span><br><span class="line">            save_checkpoint(</span><br><span class="line">                model, save_model_path, &#123;</span><br><span class="line">                    &#39;epoch&#39;: epoch,</span><br><span class="line">                    &#39;lr&#39;: lr,</span><br><span class="line">                    &#39;cv_loss&#39;: cv_loss,</span><br><span class="line">                    &#39;step&#39;: executor.step</span><br><span class="line">                &#125;)</span><br><span class="line">            writer.add_scalars(&#39;epoch&#39;, &#123;&#39;cv_loss&#39;: cv_loss, &#39;lr&#39;: lr&#125;, epoch)</span><br><span class="line">        final_epoch &#x3D; epoch</span><br><span class="line">​</span><br><span class="line">    if final_epoch is not None and args.local_rank &#x3D;&#x3D; 0:</span><br><span class="line">        final_model_path &#x3D; os.path.join(model_dir, &#39;final.pt&#39;)</span><br><span class="line">        os.symlink(&#39;&#123;&#125;.pt&#39;.format(final_epoch), final_model_path)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AF%AD%E9%9F%B3%E8%AF%86%E5%88%AB/">语音识别</a></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2021/04/08/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-NNLM/"><img class="prev-cover" src="/img/top_img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">经典论文阅读---NNLM</div></div></a></div><div class="next-post pull-right"><a href="/2021/04/07/transformer-xl/"><img class="next-cover" src="/2021/04/07/transformer-xl/figure_2.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">transformer-xl</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/katto.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">yangsp5</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">36</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yangsp5"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"></div></div></main><footer id="footer" style="background-image: url('/img/top_img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By yangsp5</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
