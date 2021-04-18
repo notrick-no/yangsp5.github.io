@@ -1,13 +1,13 @@
-<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>经典论文阅读---RNN | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="没想到这篇文章时代如此久远，是Rumelhart David E、Hinton Geoffrey E、Williams Ronald J 三位大神在1985年发表的 年代久远，以至于没有数字版本的pdf。。。 阅读这篇文章，了解最开始的RNN的想法  The Problem 本文提出了一种只包含输入输出的结构，没有中间层  文章在第二段提出了：输入的特征和输出的特征相似，这样容易导致系统很难学习">
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>经典论文阅读---RNN | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="没想到这篇文章时代如此久远，是Rumelhart David E、Hinton Geoffrey E、Williams Ronald J 三位大神在1985年发表的 年代久远，以至于没有数字版本的pdf。。。 阅读这篇文章，了解最开始的RNN的想法 这篇文章不知道有几个版本，我找到的每篇都不太一样。。  http:&#x2F;&#x2F;www.cs.utoronto.ca&#x2F;，这份pdf只有四页，这篇文章的题目是L">
 <meta property="og:type" content="article">
 <meta property="og:title" content="经典论文阅读---RNN">
 <meta property="og:url" content="http://yangsp5.github.io/2021/04/14/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-RNN/index.html">
 <meta property="og:site_name" content="我的学习小屋">
-<meta property="og:description" content="没想到这篇文章时代如此久远，是Rumelhart David E、Hinton Geoffrey E、Williams Ronald J 三位大神在1985年发表的 年代久远，以至于没有数字版本的pdf。。。 阅读这篇文章，了解最开始的RNN的想法  The Problem 本文提出了一种只包含输入输出的结构，没有中间层  文章在第二段提出了：输入的特征和输出的特征相似，这样容易导致系统很难学习">
+<meta property="og:description" content="没想到这篇文章时代如此久远，是Rumelhart David E、Hinton Geoffrey E、Williams Ronald J 三位大神在1985年发表的 年代久远，以至于没有数字版本的pdf。。。 阅读这篇文章，了解最开始的RNN的想法 这篇文章不知道有几个版本，我找到的每篇都不太一样。。  http:&#x2F;&#x2F;www.cs.utoronto.ca&#x2F;，这份pdf只有四页，这篇文章的题目是L">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
 <meta property="article:published_time" content="2021-04-14T08:21:48.000Z">
-<meta property="article:modified_time" content="2021-04-14T08:46:01.579Z">
+<meta property="article:modified_time" content="2021-04-18T12:18:38.264Z">
 <meta property="article:author" content="yangsp5">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yangsp5.github.io/img/top_img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2021/04/14/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-RNN/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
@@ -56,7 +56,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2021-04-14 16:46:01'
+  postUpdate: '2021-04-18 20:18:38'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -138,17 +138,98 @@
           document.documentElement.classList.remove('hide-aside')
         }
       }
-    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">38</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">经典论文阅读---RNN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-14T08:21:48.000Z" title="Created 2021-04-14 16:21:48">2021-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-14T08:46:01.579Z" title="Updated 2021-04-14 16:46:01">2021-04-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/">nlp</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87/">经典论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="经典论文阅读---RNN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">38</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">经典论文阅读---RNN</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-14T08:21:48.000Z" title="Created 2021-04-14 16:21:48">2021-04-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-18T12:18:38.264Z" title="Updated 2021-04-18 20:18:38">2021-04-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/">nlp</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87/">经典论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="经典论文阅读---RNN"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
 <li>没想到这篇文章时代如此久远，是Rumelhart David E、Hinton Geoffrey E、Williams Ronald J 三位大神在<strong>1985</strong>年发表的</li>
 <li>年代久远，以至于没有数字版本的pdf。。。</li>
 <li>阅读这篇文章，了解最开始的RNN的想法</li>
+<li><p>这篇文章不知道有几个版本，我找到的每篇都不太一样。。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.cs.utoronto.ca/~hinton/absps/naturebp.pdf">http://www.cs.utoronto.ca/</a>，这份pdf只有四页，这篇文章的题目是Learning representations by back-propagating errors</li>
+<li><a target="_blank" rel="noopener" href="https://web.stanford.edu/class/psych209a/ReadingsByDate/02_06/PDPVolIChapter8.pdf">stanford</a>的版本，足足23页；这篇文章的题目是learning internal representations by error propagation</li>
+<li>这两个不一样，本文主要讲第一个文章</li>
 </ul>
-<h1 id="The-Problem"><a href="#The-Problem" class="headerlink" title="The Problem"></a>The Problem</h1><ul>
-<li><p>本文提出了一种只包含输入输出的结构，没有中间层</p>
 </li>
-<li><p>文章在第二段提出了：输入的特征和输出的特征相似，这样容易导致系统很难学习到输入到输出的映射</p>
+<li><p>首先文章描述了一种新的<strong>学习过程</strong>，反向传播；这种学习过程是神经元的学习过程</p>
 </li>
-<li></li>
+<li>这个过程，就是重复的调整权重，来最小化网络输出值和真实值之间的差距</li>
+<li>由于权重的不过调整，所以中间的隐藏单元就可以来表示重要的特征</li>
+<li>文章在第一段就提到，如果不加隐藏神经元，那么，输入和输出是直接相连的，所以上面提到的调整权重，是很简单的；但是加了隐藏的神经单元，调整权重就变得困难了；整个学习过程，必须决定哪个神经元必须激活、来帮助缩小后面的真实值和输出值</li>
+<li>最简单的网络应该是这样的：输入有一层，中间有许多层，输出有一层，连接的方式必须是从下面的层往上传递，不能从上面的层往下传，同时，可以跳过中间层<ul>
+<li>这里想到了<strong>ResNet</strong>，也是使用了skip connection的方式，解决了残差问题</li>
+<li>为什么只能从下面的层往上传递，不能从上面的层往下传递？</li>
+</ul>
+</li>
+<li>每一层的方式都是这样，其中$j$是指：这一层的输入，第$j$个位置，是上一层output（即$y_i$）的线性和</li>
+</ul>
+<script type="math/tex; mode=display">
+x_{j}=\sum_{i} y_{i} w_{i j}</script><ul>
+<li>接着，这个神经元，也就是$x_j$的值，要经过非线性激活函数，这里是sigmoid<ul>
+<li>为什么要激活？</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+y_{j}=\frac{1}{1+e^{-x_{j}}}</script><ul>
+<li>文中定义的，损失函数如下，$c$是样本下标，$j$是输出值的下表</li>
+</ul>
+<script type="math/tex; mode=display">
+E=\frac{1}{2} \sum_{c} \sum_{j}\left(y_{j c}-d_{j c}\right)^{2}</script><ul>
+<li>最小化$E$，也就是，使用梯度下降的方法；那么就需要计算$E$的偏导数；上面提到的学习过程，包括前向传播，和反向传播</li>
+<li>反向传播就是，将梯度从最顶层传递到最底层</li>
+</ul>
+<h1 id="文中的例子"><a href="#文中的例子" class="headerlink" title="文中的例子"></a>文中的例子</h1><ul>
+<li>文章举了一个特殊的例子，如下图，这是一个族谱图，可以转成三元组的形式：&lt;人名&gt;&lt;关系&gt;&lt;人名&gt;</li>
+</ul>
+<p><img src="/2021/04/14/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-RNN/sample.png" alt></p>
+<ul>
+<li>现在的网络是要，给定三元组的前两个，预测第三个，即预测人名</li>
+</ul>
+<h1 id="反向传播算法"><a href="#反向传播算法" class="headerlink" title="反向传播算法"></a>反向传播算法</h1><ul>
+<li>首先对$E$计算偏导数，如下，这里的计算，是对某个$c$来说的，也就是计算这个样本的梯度</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{ \partial E}{ \partial  y_{j} } =y_{j}-d_{j}</script><ul>
+<li>根据链式法则，那么可以计算出，激活函数之前，权重的偏导数</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{\partial E} {\partial x_{j}} = \frac{\partial E} { \partial y_{j}} \cdot \frac{\mathrm{dy}_{\mathrm{j}}}{ \mathrm{d} x_{j} }</script><ul>
+<li>注意，上面的第二项，是对激活函数求导，所以没有偏导数，而激活函数式sigmoid，所以可以写成下面的形式</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{\partial E} {\partial x_{j}} = \frac{\partial E} { \partial y_{j}} \cdot y_j \left(1-y_j\right)</script><ul>
+<li><p>注意，这里可以看得出来，$x_j$是怎么影响误差的：有了$x_j$之后，可以计算出$y_j$，而$\frac{\partial E} { \partial y_{j}}$在上面的表达形式中，有$\frac{\partial E} { \partial y_{j}}=y_j - d_j$</p>
+<ul>
+<li>那么就有$\frac{\partial E} {\partial x_{j}} = (y_j - d_j) \cdot y_j \cdot (1-y_j)$</li>
+</ul>
+</li>
+<li><p>而$x_j$是下面一层神经网络的输出的线性和，即$x_{j}=\sum_{i} y_{i}^{(t-1)} w_{i j}$，为了区分两个层的$y$，底层的$y$的上标加了$t-1$</p>
+</li>
+<li><p>也就是，我们可以计算出，这些权重是怎么影响最终的误差的</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{\partial E} {\partial w_{ij}} = \frac{\partial E} { \partial x_{j}} \cdot \frac{\partial {x_j}}{ \partial w_{ij}} = (y_j - d_j) \cdot y_j \cdot (1-y_j) * y_{i}^{(t-1)}</script><ul>
+<li><p>上面说的是，最后一层的偏导计算方式</p>
+</li>
+<li><p>有了偏导数之后，就可以更新权重了</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\Delta w=-\varepsilon \partial E / \partial w</script><ul>
+<li>文章中还提到了另外一种方式，即当前的梯度更新值，结合上一次的更新</li>
+</ul>
+<script type="math/tex; mode=display">
+\Delta w(t)=-\varepsilon \partial E / \partial w(t)+\alpha \Delta w(t-1)</script><ul>
+<li>上面的偏导数在隐藏层和隐藏层的计算方式是不一样的；当前的神经元，误差会来自上面所有相连的神经元</li>
+</ul>
+<h1 id="观点"><a href="#观点" class="headerlink" title="观点"></a>观点</h1><ul>
+<li>这种梯度计算的方式，通常会陷入到误差函数中局部最小值中；但是，经验表明陷入局部最小值，并不一定使得网络特别差；只有在connections足够多的情况下，这里应该是指全连接层太长了？</li>
+<li>添加一点点连接层，会使得权重空间的维数增大（参数量多了），那么，绕开这种陷入局部最小值的路径就多了，所以比较好</li>
+<li>总体来说，这样的学习过程，都是依据梯度来传递的；梯度传递的信息，是误差</li>
+<li>这样的学习方式，真的是合理的吗？有没有一些生物学上的学习方式呢</li>
+</ul>
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><ul>
+<li>这篇文章介绍了反向传播，但是RNN的部分在哪呢？</li>
 </ul>
 </article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/"><img class="next-cover" src="/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/word2vec.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">经典论文阅读---word2vec</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/katto.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">yangsp5</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">38</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yangsp5"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"></div></div></main><footer id="footer" style="background-image: url('/img/top_img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By yangsp5</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
   window.MathJax = {

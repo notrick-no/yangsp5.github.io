@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://yangsp5.github.io/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/word2vec.png">
 <meta property="article:published_time" content="2021-04-11T13:03:31.000Z">
-<meta property="article:modified_time" content="2021-04-13T13:14:36.906Z">
+<meta property="article:modified_time" content="2021-04-18T13:32:11.085Z">
 <meta property="article:author" content="yangsp5">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yangsp5.github.io/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/word2vec.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
@@ -56,7 +56,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: false,
-  postUpdate: '2021-04-13 21:14:36'
+  postUpdate: '2021-04-18 21:32:11'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -138,7 +138,7 @@
           document.documentElement.classList.remove('hide-aside')
         }
       }
-    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">38</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/word2vec.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">经典论文阅读---word2vec</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-11T13:03:31.000Z" title="Created 2021-04-11 21:03:31">2021-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-13T13:14:36.906Z" title="Updated 2021-04-13 21:14:36">2021-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/">nlp</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87/">经典论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="经典论文阅读---word2vec"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">38</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/2021/04/11/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-word2vec/word2vec.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">经典论文阅读---word2vec</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-11T13:03:31.000Z" title="Created 2021-04-11 21:03:31">2021-04-11</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-04-18T13:32:11.085Z" title="Updated 2021-04-18 21:32:11">2021-04-18</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/">nlp</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87/">经典论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="经典论文阅读---word2vec"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1301.3781">Efficient Estimation of Word Representations in Vector Space</a></li>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1310.4546">Distributed Representations of Words and Phrases and their Compositionality</a></li>
 <li>第一篇文章在NNLM的基础上做了修改，提出了CBOW和skip-gram模型</li>
@@ -210,9 +210,6 @@ Q=C \times\left(D+D \times \log _{2}(V)\right)</script><ul>
 <ul>
 <li>skip gram的计算类似上面的方式</li>
 </ul>
-<h1 id="两个模型的Loss"><a href="#两个模型的Loss" class="headerlink" title="两个模型的Loss"></a>两个模型的Loss</h1><ul>
-<li>两个模型都有loss，这里记录下</li>
-</ul>
 <h2 id="完整的loss"><a href="#完整的loss" class="headerlink" title="完整的loss"></a>完整的loss</h2><ul>
 <li>在上面的计算过程中，最终的output是$|V|$维的向量，也就是给出了预测的词语的概率</li>
 <li>也就是下面的公式，$v_{\text{input}}$是输入的词语的词向量，$v_{w_{O}}^{\prime}$是上面context matrix中的某一列，也就代表了预测的某个词语的内容向量</li>
@@ -223,15 +220,53 @@ Q=C \times\left(D+D \times \log _{2}(V)\right)</script><ul>
 </li>
 </ul>
 <script type="math/tex; mode=display">
-p\left(w_{O} \mid \text{input} \right)=\frac{\exp \left(v_{w_{O}}^{\prime}{ }^{\top} v_{\text{input}}\right)}{\sum_{i=1}^{V} \exp \left(v_{w_{i}}^{\prime}{ }^{\top} v_{\text{input}}\right)}</script><h2 id="层次softmax"><a href="#层次softmax" class="headerlink" title="层次softmax"></a>层次softmax</h2><ul>
+p\left(w_{O} \mid \text{input} \right)=\frac{\exp \left(v_{w_{O}}^{\prime}{ }^{\top} v_{\text{input}}\right)}{\sum_{i=1}^{V} \exp \left(v_{w_{i}}^{\prime}{ }^{\top} v_{\text{input}}\right)}</script><h1 id="第二篇文章"><a href="#第二篇文章" class="headerlink" title="第二篇文章"></a>第二篇文章</h1><ul>
+<li>现在记录下第二篇文章</li>
+<li>文中说道，对词频进行下采样（这里是对词频高的词语进行下采样吗？），提高了训练速度，提高了词频较少的词语的准确率</li>
+<li><p>这里提到了Noise Contrastive Estimation</p>
+</li>
+<li><p>词向量表示的方法，有局限性，比如很难表示惯用词，比如<code>Boston Globe</code>是新闻报纸，但是两个词不是自然合并在一起的；所以现在用的是单词，不是短语；那么从单词过渡到短语，可以这么做，先准备大量的短语的语料，再将短语视为单独的token</p>
+</li>
+<li>skip-gram模型就是在最大化，平均log probability<ul>
+<li>下面的$t$是指，长度为$T$的词语序列中，第$t$个单词，$c$是窗宽</li>
+<li>$c$越大，训练样本越多，会导致更高的准确率</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{1}{T} \sum_{t=1}^{T} \sum_{-c \leq j \leq c, j \neq 0} \log p\left(w_{t+j} \mid w_{t}\right)</script><h2 id="层次softmax"><a href="#层次softmax" class="headerlink" title="层次softmax"></a>层次softmax</h2><ul>
 <li>这里的问题是想解决，最后计算概率的时候，更快一点</li>
 <li>原来的softmax，慢的问题在于，要对所有的单词的context vector，计算向量内积，再归一化得到概率。如果我们的单词有几十万个，那么就要计算几十万次，这就很浪费了</li>
 <li>所以现在不想用softmax，改用哈夫曼树的结构，作者把这个叫做层次softmax</li>
 <li>哈夫曼树，每个节点都是一个单词<ul>
-<li>哈夫曼树的构建：每次合并数值（这里是词频吗？）最小的两个节点</li>
+<li>哈夫曼树的构建：每次合并数值（这里是词频）最小的两个节点</li>
+<li>构建完之后，每个单词都可以用唯一的<code>0</code>和<code>1</code>的编码来表示</li>
 </ul>
 </li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/56139075">层次softmax</a></li>
+<li><p>用原论文的符号表示</p>
+</li>
+<li><p>$n(w, j)$是从根节点到第$j$个节点的路径，$L(w)$是路径长度</p>
+<ul>
+<li>由于文中的<code>llbracket</code>latex符号打不出来，所以用$g$来表示；<code>g(true)=1, g(false)=-1</code></li>
+<li>$\sigma$是sigmoid函数</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+p\left(w \mid w_{I}\right)=\prod_{j=1}^{L(w)-1} \sigma\left\{ g \left[ n(w, j+1)=\operatorname{ch}(n(w, j)) \right]  \cdot v_{n(w, j)}^{\prime}{ }^{\top} v_{w_{I}}\right\}</script><ul>
+<li>上面的概率写得并不好，很晦涩，用下面的写法，就明白了<ul>
+<li>在哈夫曼树上，从根节点走到对应的结点（也就是上文中的预测的词语），每到一个结点，都是一次二选一，即选择向左走、向右走，那么就是一个二分类问题，所以用了一个简单的逻辑回归的形式</li>
+<li>没看懂文章中的$ch$是啥意思</li>
+<li>当$n(w, j+1)=\operatorname{ch}(n(w, j))$时，就是路径中，走对了方向；换句话说，假设$ch$永远是这个结点的左孩子，那么路径中的下一个结点就是左孩子</li>
+<li>当$n(w, j+1)!=\operatorname{ch}(n(w, j))$时，即路径中的下一个结点就是右孩子</li>
+<li>这就变成了一个判断左右的二分类问题；</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+p(w \mid \operatorname{Context}(w))=\prod_{j=2}^{L{(w)}} p\left(d_{j}^{w} \mid \mathbf{x}_{w}, \theta_{j-1}^{w}\right)</script><h2 id="负采样"><a href="#负采样" class="headerlink" title="负采样"></a>负采样</h2><ul>
+<li>Noise Contrastive Estimation是噪声对比估计，即一个好的模型，应该可以区分数据与噪声</li>
 </ul>
 <h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><ul>
 <li>CBOW的代码实现</li>
