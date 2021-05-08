@@ -1,0 +1,266 @@
+<!DOCTYPE html><html lang="zh-cn" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>经典论文阅读---LSTM | 我的学习小屋</title><meta name="author" content="yangsp5"><meta name="copyright" content="yangsp5"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录下LSTM  本文解决了什么问题 在摘要中提到了，传统的BPTT或RTRL会出现，误差（就是梯度）消失、爆炸的问题；梯度消失会导致更新过慢，甚至不能学习，梯度爆炸会导致权重震荡 RNN和Lstm的不同之处，在于改进了RNN的梯度爆炸、消失问题 本文利用lstm的结构，改进了这个问题，整个结构使得恒定的error flow，不会梯度爆炸、消失（感觉是吹的）  BPTT BPTT是back pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="经典论文阅读---LSTM">
+<meta property="og:url" content="http://yangsp5.github.io/2021/04/23/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-LSTM/index.html">
+<meta property="og:site_name" content="我的学习小屋">
+<meta property="og:description" content="记录下LSTM  本文解决了什么问题 在摘要中提到了，传统的BPTT或RTRL会出现，误差（就是梯度）消失、爆炸的问题；梯度消失会导致更新过慢，甚至不能学习，梯度爆炸会导致权重震荡 RNN和Lstm的不同之处，在于改进了RNN的梯度爆炸、消失问题 本文利用lstm的结构，改进了这个问题，整个结构使得恒定的error flow，不会梯度爆炸、消失（感觉是吹的）  BPTT BPTT是back pr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yangsp5.github.io/img/top_img.jpg">
+<meta property="article:published_time" content="2021-04-23T03:30:07.000Z">
+<meta property="article:modified_time" content="2021-05-07T23:51:17.287Z">
+<meta property="article:author" content="yangsp5">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yangsp5.github.io/img/top_img.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yangsp5.github.io/2021/04/23/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-LSTM/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"We didn't find any results for the search: ${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: true,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-05-08 07:51:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/katto.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">39</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/top_img.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">我的学习小屋</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">经典论文阅读---LSTM</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-04-23T03:30:07.000Z" title="Created 2021-04-23 11:30:07">2021-04-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-05-07T23:51:17.287Z" title="Updated 2021-05-08 07:51:17">2021-05-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/">nlp</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nlp/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87/">经典论文</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="经典论文阅读---LSTM"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><ul>
+<li>记录下<a target="_blank" rel="noopener" href="https://www.bioinf.jku.at/publications/older/2604.pdf">LSTM</a></li>
+</ul>
+<h1 id="本文解决了什么问题"><a href="#本文解决了什么问题" class="headerlink" title="本文解决了什么问题"></a>本文解决了什么问题</h1><ul>
+<li>在摘要中提到了，传统的BPTT或RTRL会出现，误差（就是梯度）消失、爆炸的问题；梯度消失会导致更新过慢，甚至不能学习，梯度爆炸会导致权重震荡</li>
+<li>RNN和Lstm的不同之处，在于改进了RNN的梯度爆炸、消失问题</li>
+<li>本文利用lstm的结构，改进了这个问题，整个结构使得恒定的error flow，不会梯度爆炸、消失（感觉是吹的）</li>
+</ul>
+<h1 id="BPTT"><a href="#BPTT" class="headerlink" title="BPTT"></a>BPTT</h1><ul>
+<li><p>BPTT是back propagation throught time，是梯度沿时间通道传播的算法</p>
+</li>
+<li><p>假设在时间$t$，真实值（文中说的<code>target</code>）是$d_{k}(t)$，$k$指第$k$个值；预测值为$y^{k}$</p>
+</li>
+<li>有一说一，原论文的公式写得<strong>太简洁了</strong></li>
+<li>如果损失函数是mse，即</li>
+</ul>
+<script type="math/tex; mode=display">
+loss = \sum_t \sum_k \left( d_k(t) - y^k(t) \right)^2</script><ul>
+<li>那么第$k$的单元的误差就是，对第$k$个神经元求导，即$\frac{\partial \text{loss}}{\partial net_k(t)} = \vartheta_{k}(t)$<ul>
+<li>文中把这个叫做$k’s$ error signal，误差信号</li>
+<li>文中用了vartheta这个符号来表示这个梯度</li>
+</ul>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\vartheta_{k}(t)=f_{k}^{\prime}\left(\text { net }_{k}(t)\right)\left(d_{k}(t)-y^{k}(t)\right)</script><ul>
+<li>其中$y^{i}(t)=f_{i}\left(n e t_{i}(t)\right)$，$n e t_{i}(t)=\sum_{j} w_{i j} y^{j}(t-1)$</li>
+<li>即$f_i$是激活函数，$w_{ij}$是单元$i$到单元$j$的权重连接，也就是我们需要更新的参数</li>
+<li>而中间层的误差为，即对$j$个神经元求导，有$\frac{\partial \text{loss}}{ \partial net_j (t)} =\sum_l \frac{\partial \text{loss}}{ \partial y_l(t+1)} \frac{ \partial y_l(t+1)}{ \partial net_j(t) }$</li>
+</ul>
+<script type="math/tex; mode=display">
+\vartheta_{j}(t)=f_{j}^{\prime}\left(n e t_{j}(t)\right) \sum_{i} w_{i j} \vartheta_{i}(t+1)</script><h2 id="Hochreiter’s-analysis"><a href="#Hochreiter’s-analysis" class="headerlink" title="Hochreiter’s analysis"></a>Hochreiter’s analysis</h2><ul>
+<li>现在关注下神经元$u$到神经元$v$的误差流向（$v$在模型的底层，$u$在上层，所以反传的时候，是）</li>
+<li><p>这里有两个概念，第一个是时间$t$，神经元$u$</p>
+</li>
+<li><p>任意一个神经元$u$，在时间$t$，产生的误差，都会反传回去，假设反传了$q$个step，即$q$个时间，到达神经元$v$，</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">
+\frac{\partial \vartheta_{v}(t-q)}{\partial \vartheta_{u}(t)}=\left\{\begin{array}{cc}
+f_{v}^{\prime}\left(n e t_{v}(t-1)\right) w_{u v} & q=1 \\
+f_{v}^{\prime}\left(n e t_{v}(t-q)\right) \sum_{l=1}^{n} \frac{\partial \vartheta_{l}(t-q+1)}{\partial \vartheta_{u}(t)} w_{l v} & q>1
+\end{array}\right.</script><ul>
+<li>这一章的符号看得一愣一愣的，完全不知道在说啥</li>
+<li>但是提出了一个观点，即增加神经元的个数，不一定能增加error flow</li>
+<li></li>
+</ul>
+<h1 id="constant-error-flow"><a href="#constant-error-flow" class="headerlink" title="constant error flow"></a>constant error flow</h1><ul>
+<li>前面一节太难了，符号太麻烦了</li>
+<li>这一节讲怎么得到常数级别的误差</li>
+</ul>
+<h1 id="模型结构"><a href="#模型结构" class="headerlink" title="模型结构"></a>模型结构</h1><ul>
+<li>本文构建了一种模型，有常数级别的error flow，这些error可以传递过特殊的、自连接的神经元，而且又没有上面方法的缺点</li>
+<li><p>这里扩展了constant error carrousel</p>
+<ul>
+<li>constant error carrousel的<a target="_blank" rel="noopener" href="https://deepai.org/machine-learning-glossary-and-terms/constant%20error%20carousel">意思</a></li>
+<li>carrousel应该翻译成旋转木马</li>
+</ul>
+</li>
+<li><p>输入门：保护存储在$j$上的记忆，个人认为是特征，避免被不想关的信息给扰动</p>
+</li>
+<li>输出门：文中用了multiplicative来形容，是用来保护存储在当前$j$中的，不相关的记忆</li>
+<li>记忆门：每一个记忆门的神经元，都是建立在中心的线性神经元之上，而且有固定的self-connection，这是什么意思</li>
+</ul>
+<ul>
+<li><p>为啥要用gate units：避免输入权重的冲突，模型使用输入门来决定，保留还是重写记忆门中的$c_j$，</p>
+<p>输出门的$out_j$决定什么时候获取$c_j$</p>
+</li>
+</ul>
+<ul>
+<li>abuse problem：在学习（训练）的开始阶段，可能还没有存储信息就已经缩减了误差，那么模型就倾向于滥用memory cells，可能需要很长时间才能释放这些滥用的memory cells。</li>
+<li>有两种方式来解决这个问题：sequential network construction，即无论误差是否已经停止下降了，都可以加memory cell进去；output gate的bias设置成负值，来促进memory cell激活值趋于零，在实验中表明，这些数值</li>
+<li>internal state漂移的问题：如果memory cell的输入，大多都是正（负）数，那么internal state会倾向于随着时间漂移（感觉就是发散了，不集中在中间），一阶导就会容易倾向于变成小的数值，然后梯度就会消失。</li>
+<li>解决的方法是：选择合适的激活函数；初始化输入门的bias为0，这里是个trade off问题</li>
+<li>文中提到，使用sigmoid激活函数之后，就不需要来微调bias</li>
+</ul>
+<h1 id="实验部分"><a href="#实验部分" class="headerlink" title="实验部分"></a>实验部分</h1><ul>
+<li>首先，任务应该要足够复杂，不能被简单的解决掉，言下之意就是，不能通过随机猜权重就解决了</li>
+<li></li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/04/14/%E7%BB%8F%E5%85%B8%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB-RNN/"><img class="next-cover" src="/img/top_img.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">经典论文阅读---RNN</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/katto.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">yangsp5</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">39</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">11</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">Categories</div><div class="length-num">12</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/yangsp5"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="sticky_layout"></div></div></main><footer id="footer" style="background-image: url('/img/top_img.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2021 By yangsp5</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">Local search</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><canvas class="fireworks" mobile="false"></canvas><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/fireworks.min.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
